@@ -1,0 +1,34 @@
+<assembly>
+	<id>dist</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<outputDirectory>bin</outputDirectory>
+			<directory>src/main/bin</directory>
+			<fileMode>0755</fileMode>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>bin</outputDirectory>
+			<directory>../sokeeper-persist/src/main/resources</directory>
+			<fileMode>0644</fileMode>
+			<includes><include>persist.properties</include></includes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>bin</outputDirectory>
+			<directory>src/main/resources</directory>
+			<fileMode>0644</fileMode>
+			<includes>
+			    <include>server.properties</include>
+			    <include>log4j.properties</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+</assembly>

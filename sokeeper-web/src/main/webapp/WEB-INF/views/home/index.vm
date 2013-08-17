@@ -1,0 +1,28 @@
+	<div id="header">
+		<div class="box">
+			<a id="logo" href="$request.contextPath" title="sokeeper.com Home">
+			  <img src="$request.contextPath/images/sokeeper/logo.png" alt="sokeeper.com logo" />
+			</a>
+			<div id="top-search">
+				<span id="selectDeals" class="iconMap dealOn"><a>Movie</a></span>
+				<span id="selectCoupons" class="iconMap couponOff"><a>Music</a></span>
+				<form method="get" name="main_search" id="mainSearchBar" action="$request.contextPath/home/index.htm">
+					<div>
+					    <input type="hidden" name="topic" value="movie">
+						<div id="search_div">
+							<input type="text" maxlength="128" name="keyword" class="search_input" value="" id="search_auto_bar" disabled="disabled" />
+						</div>
+						<input type="submit" id="top_search_bttn" class="iconMap" value="Search" />
+					</div>
+				</form>
+				<div id="topSearchKeywords">
+					Popular: <a href="/bestbuy-coupons" title="Best Buy coupons" >Best Buy</a> 
+					         <a href="/6pm-coupons" title="6PM coupons" >6PM</a>
+				</div>
+				<a href="$request.contextPath/home/index.htm" id="submitButton" class="iconMap">Submit</a>
+			</div>
+		</div>		
+		<div class="clear"></div>
+	</div>
+
+	

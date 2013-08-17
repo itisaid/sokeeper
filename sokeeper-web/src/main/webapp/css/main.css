@@ -1,0 +1,194 @@
+html,body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	text-align: center;
+	font-family: Arial, 'Lucida Grande', Tahoma, Verdana, 'Trebuchet MS',
+		Sans-serif;
+	font-size: 12px;
+	color: #111
+}
+
+a {
+	color: #034492;
+	text-decoration: none;
+	border: 0;
+	outline: none
+}
+
+a:hover {
+	text-decoration: underline
+}
+
+img {
+	border: 0;
+	-ms-interpolation-mode: bicubic !important
+}
+
+
+.clear {
+	clear: both
+}
+
+#header {
+	background-color: #6484a1;
+	height: 110px;
+	background: url('../images/sokeeper/bg_pattern_01192010.gif') repeat
+}
+
+#header .box {
+	margin: 0 auto;
+	width: 950px;
+	position: relative
+}
+
+#logo {
+	position: absolute;
+	left: 3px;
+	top: -2px
+}
+
+#top-search {
+	height: 88px;
+	position: relative;
+	float: right;
+	width: 670px;
+	margin: 14px 0 0 5px
+}
+
+#top-search .dealOn {
+	background-position: 0 0
+}
+
+#top-search .dealOff {
+	background-position: 0 -70px;
+	height: 21px
+}
+
+#top-search .couponOn {
+	background-position: 0 -35px
+}
+
+#top-search .couponOff {
+	background-position: 0 -95px;
+	height: 21px
+}
+
+#top-search span {
+	cursor: pointer;
+	display: block;
+	line-height: 21px;
+	width: 81px;
+	height: 31px;
+	font: bold 14px Arial;
+	text-align: center;
+	padding: 4px 0 0;
+	z-index: 1
+}
+
+#top-search a {
+	text-decoration: none;
+	color: #036
+}
+
+#top-search a:hover {
+	color: #069
+}
+
+
+#selectDeals {
+	position: absolute;
+	top: 0px;
+	left: 0px
+}
+
+#selectCoupons {
+	position: absolute;
+	top: 0px;
+	left: 80px
+}
+
+
+#mainSearchBar {
+	margin: 0
+}
+
+
+#search_div input {
+	position: absolute;
+	top: 24px;
+	left: -14px;
+	background: #efeff0 url('../images/sokeeper/search_input_bg_01192010.gif')
+		repeat-x top left;
+	border-top: 1px solid #446786;
+	border-bottom: 1px solid #446786;
+	border-left: 1px solid #446786;
+	border-right: none;
+	width: 428px;
+	height: 34px;
+	color: #bfbfbf;
+	font: bold 24px Arial;
+	padding: 6px 0 3px 5px
+}
+
+input.search_input {
+	width: 300px;
+	height: 19px;
+	font: normal 15px Arial;
+	color: #333;
+	vertical-align: middle
+}
+
+.iconMap {
+	background: url('../images/sokeeper/sprite.png?42') no-repeat
+}
+
+#top_search_bttn {
+	position: absolute;
+	top: 24px;
+	left: 420px;
+	background-position: 0 -120px;
+	border-width: 0;
+	font: bold 20px Arial;
+	color: white;
+	padding-left: 30px;
+	width: 122px;
+	height: 45px;
+	cursor: pointer
+}
+
+#top_search_bttn:hover {
+	background-position: 0 -165px
+}
+
+#topSearchKeywords {
+	position: absolute;
+	top: 74px;
+	left: -15px;
+	font-size: 11px
+}
+
+#topSearchKeywords a {
+	color: white;
+	padding: 0 4px
+}
+
+#submitButton {
+	position: absolute;
+	display: block;
+	top: 24px;
+	left: 557px;
+	background-position: 0 -210px;
+	width: 87px;
+	height: 34px;
+	font: bold 20px Arial;
+	color: white;
+	padding: 11px 0 0 26px;
+	border-width: 0
+}
+
+#submitButton:hover {
+	background-position: 0 -255px
+}
+
+

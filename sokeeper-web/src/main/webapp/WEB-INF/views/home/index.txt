@@ -1,0 +1,332 @@
+    
+    <!--[if IE 6]>
+	<link href="$request.contextPath/css/ie6-cat-menu.css" rel="stylesheet" type="text/css">
+	<link href="$request.contextPath/css/ie6-styles.css"   rel="stylesheet" type="text/css">
+	<![endif]-->
+    <!--[if IE 7]>
+	<link href="$request.contextPath/css/ie7-styles.css" rel="stylesheet" type="text/css">
+	<![endif]-->
+	
+
+	<div id="topNavContainer">
+		<div class="box">
+			<ul id="topMenu">
+				<li><a href="#COUPON">Coupons</a></li>
+				<li><a href="#DEAL">Deals</a></li>
+				<!--li><a href="/answer">Ask &amp; Share</a></li-->
+			</ul>
+			<ul id="userMenu">
+				<li><a href="/login" class="firstMenuLink">Log In</a></li>
+				<li><a href="/signup"><span>New User?</span> Sign Up!</a></li>
+			</ul>
+			<div class="clear"></div>
+			<div id="over-box" style="display: none;"></div>
+			<div id="dark-overlay" style="display: none;"></div>
+			<div id="image-box" style="display: none;"></div>
+			<div id="video-box" style="display: none;"></div>
+		</div>
+	</div>
+	
+	<div class="clear"></div>
+	
+	<div id="subNav">
+		<div class="menu-cat">
+			<ul class="menu">
+			</ul>
+		</div>
+	</div>
+	
+	<div id="container">
+		<div id="main_content" class="content">
+			<div class="content_right">
+				<div class="module_sm">
+					<div class="top">
+						<!--ie sucks-->
+					</div>
+					<div class="content">
+						<h1 id="homeH1">Popular Stores</h1>
+						<div class="popularCoupons">
+							<a href="/6pm-coupons" title="6pm Shoes coupons" class="font12" >6pm Shoes</a> 
+							<a href="/aa-coupons" title="American Airlines coupons" class="font10" >American Airlines</a> 
+							<a href="/aeropostale-coupons" title="Aeropostale coupons" class="font20" >Aeropostale</a> 
+							<a href="/amazon-coupons" title="Amazon coupons" class="font20" >Amazon</a> 
+							<a href="/apple-coupons" title="Apple coupons" class="font11" >Apple</a> 
+						</div>
+					</div>
+					<div class="bot">
+						<!--ie sucks-->
+					</div>
+				</div>
+
+				<div class="module_sm">
+					<div class="top">
+						<!--ie sucks-->
+					</div>
+					<div class="content">
+						<h3>Today's Top Deals</h3>
+						<table border="0" cellspacing="0" cellpadding="0" width="100%">
+							<tr>
+								<td class="front-top-5-plus">
+								  <a href="/Gifts-Flowers-and-Food_deals/p_sees-candies-mothers-day-gifts-off-coupon" class="iconMap plus-lg" >
+										55<br/><span class="plus-lg-text">saved</span></a></td>
+								<td class="front-top-5-desc">
+								  <a href="/Gifts-Flowers-and-Food_deals/p_sees-candies-mothers-day-gifts-off-coupon" >
+								  See's Candies Mother's Day Sale + $5 Off Coupon Sale</a></td>
+							</tr>
+							<tr>
+								<td class="front-top-5-plus">
+								  <a href="/Movies-and-DVDs_deals/p_top-5-at-the-box-office-movie-times-releases-deals" class="iconMap plus-lg" >
+										54<br/> <span class="plus-lg-text">saved</span>
+								</a></td>
+								<td class="front-top-5-desc">
+								  <a href="/Movies-and-DVDs_deals/p_top-5-at-the-box-office-movie-times-releases-deals" >Top 5 at The Box
+										Office: Movie Times, Releases, & Deals! Movies</a></td>
+							</tr>
+						</table>
+					</div>
+					<div class="bot">
+						<!--ie sucks-->
+					</div>
+				</div>
+								
+				<div class="module_sm">
+					<div class="top">
+						<!--ie sucks-->
+					</div>
+					<div class="content">
+						<h3>
+							<a href="/answer">Recent Questions</a>
+						</h3>
+						<table id="listRecentQuestions" width="100%" cellspacing="0">
+							<tr>
+								<td>
+								    <a href="/user/glwrks" title="glwrks">
+								      <img src="http://img.dealspl.us/profile_pic/small/82000/82734_1357604237.jpg" width="18" height="18" class="small_img" alt="glwrks"></a></td>
+								<td>
+								    <a href="/answer/livingsocial_had_cyber_attack_from_email_4_26_13_8_31_pm/22796">LivingSocial had Cyber-Attack - from email 4/26/13 8:31 PM</a><br/>glwrks 54
+									minutes ago</td>
+							</tr>
+						</table>
+						<a class="askLinkBoxSmall" href="/answers/ask.php">Ask a Question</a>
+						<div class="clear"></div>
+					</div>
+					<div class="bot">
+						<!--ie sucks-->
+					</div>
+				</div>
+			</div>
+
+			<div class="content_left">
+				<div class="sortBar">
+					<div class="frontPop">
+						<ul class="popMenu">
+							<li class="popOpt"><a href="/" class="popOptLink">Hot Coupons and Deals</a></li>
+							<li class="popOpt popOptSel"><a href="/deals/new/newest" class="popOptLink">Most Recent</a></li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+					<div class="sortOptions" id="sortingBar">
+						<form action="/sorting.php" method="post" class="inline" name="frontSortOptions">
+							<ul class="sortMenu">
+								<li class="sortOpt"><a href="#" title="Grid View" id="sortBtnGrid" class="iconMap sortBtn sortBtnGridOff" rel="view,grid"></a></li>
+								<li class="sortOpt"><a href="#" title="Row View"  id="sortBtnRow" class="iconMap sortBtn sortBtnRowOn"	rel="view,row"></a></li>
+								<li class="sortOpt"><a href="#" title="20 deals per page" id="sortBtn20" class="iconMap sortBtn sortBtn20Off" rel="num_page,20"></a></li>
+								<li class="sortOpt"><a href="#" title="40 deals per page" id="sortBtn40" class="iconMap sortBtn sortBtn40On" rel="num_page,40"></a></li>
+								<li class="sortOpt"><a href="#" title="Showing expired deals - Click to hide" id="viewExpiredLink" class="iconMap sortBtn sortExpHide" rel="view_expired,Hide"></a></li>
+							</ul>
+							<input type="hidden" name="view" value="row"> 
+							<input type="hidden" name="num_page" value="40"> 
+							<input type="hidden" name="view_expired" value=""> 
+							<input type="hidden" name="sorting_main" value="new"> 
+							<input type="hidden" name="sorting_view" value="newest"> 
+							<input type="hidden" name="current_index" value="1"> 
+							<input type="hidden" name="max_count" value="40"> 
+							<input type="hidden" name="type" value="all">
+						</form>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="module_lg">
+					<div id="allDeals">
+						<table id="rowViewRow" cellpadding="0" cellspacing="0" width="100%">
+						</table>
+						
+						<div class="page_number">
+							<span class="box_selected">1</span> 
+							<a href="#" class="box_a">Next &raquo;</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="clear"></div>
+		</div>
+	</div>
+
+	<div id="footer">
+		<div class="box">
+
+			<div class="column" style="margin-left: 10px; width: 150px;">
+				<h3>Site Links</h3>
+				<a href="/" class="block-highlight-sm">Home</a> 
+				<a href="/deals/new/newest" class="block-highlight-sm">Deals</a> 
+				<a href="/coupons" class="block-highlight-sm">Coupons</a> 
+				<a href="/submit" class="block-highlight-sm">Submit</a> 
+				<a href="/quiz.php" class="block-highlight-sm">Quiz</a> 
+				<a href="/giveaway/" class="block-highlight-sm">Giveaways</a> 
+				<a href="/answer" class="block-highlight-sm">Ask &amp; Share</a> 
+				<a href="http://m.dealspl.us/" class="block-highlight-sm">Mobile</a> 
+				<a href="/feeds.php" class="block-highlight-sm">RSS Feeds</a> 
+				<a href="/info/tos" class="block-highlight-sm">Terms of Use</a> 
+				<a href="/info/privacy" class="block-highlight-sm">Privacy Policy</a>
+				<a href="/sitemap.php" class="block-highlight-sm">Sitemap</a>
+			</div>
+
+			<div class="column">
+				<h3>Help</h3>
+				<a href="/info/about" class="block-highlight-sm">About Us</a> 
+				<a href="/info/contact" class="block-highlight-sm">Contact Us</a> 
+				<a href="/info/jobs" class="block-highlight-sm">Jobs</a> 
+				<a href="http://blog.dealspl.us/" class="block-highlight-sm">dealspl.us	Blog</a> 
+				<a href="/info/dp_tools" class="block-highlight-sm">dealspl.us Tools</a> 
+				<a href="/info/faqs" class="block-highlight-sm">Frequently Asked Questions</a> 
+				<a href="/info/tour" class="block-highlight-sm">Getting Started Guide</a> 
+				<a href="/info/contact?tid=8" class="block-highlight-sm">Report a Bug</a> 
+				<a href="/info/retailers" class="block-highlight-sm">Retailers</a> 
+				<a href="/info/advertisers" class="block-highlight-sm">Advertisers</a>
+				<a href="/account/intro.php" class="block-highlight-sm">Money Makers</a> 
+				<a href="/invite" class="block-highlight-sm">Invite</a>
+			</div>
+
+			<div class="column">
+				<h3>RSS</h3>
+				<a href="http://feeds.feedburner.com/dealsplus" rel="alternate" type="application/rss+xml" class="block-highlight-sm">
+				  <span class="rss-icon-sm font11 white">Hot Deals</span></a> 
+				<a href="http://feeds.feedburner.com/dealspl/all" title="Subscribe to my feed, dealsplus-all" rel="alternate" type="application/rss+xml" class="block-highlight-sm">
+				  <span class="rss-icon-sm font11 white">All Deals</span></a> 
+				<a href="http://feeds.feedburner.com/DealsplusPopularCoupons" class="block-highlight-sm">
+				  <span class="rss-icon-sm font11 white">Coupons</span></a> 
+				<a href="/feeds.php" class="block-highlight-sm">More...</a> 
+				<a href="http://www.facebook.com/dealsplus" class="block-highlight-sm" rel="nofollow">Facebook</a> 
+				<a href="http://twitter.com/dealsplus" class="block-highlight-sm" rel="nofollow">Twitter</a> 
+				<a href="http://pinterest.com/dealsplus/" class="block-highlight-sm" rel="nofollow">Pinterest</a> 
+				<a href="http://feeds.feedburner.com/dealsplus" class="block-highlight-sm">Add Daily Deals to Your <strong>Google</strong>,
+					<strong>Yahoo</strong>, and More...
+				</a>
+				
+				<div class="bold mart10">Subscribe to Daily Deals</div>
+				<form action="http://feedburner.google.com/fb/a/mailverify"	method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=dealsplus', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true" class="inline">
+					<div>
+						<input type="hidden" value="dealsplus" name="uri"> 
+						<input type="hidden" name="loc" value="en_US">
+						<div>
+							<div style="padding: 3px 0">
+							  <input type="text" maxlength="64" style="width: 150px;" class="generic-form font11" name="email" value="Enter Your Email" onfocus="javascript:this.value=''">
+							</div>
+							<input type="submit" value="Subscribe">
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="column" style="width: 335px; border: 0;">
+				<h3>Recently Shared Coupons</h3>
+				
+				<div class="block-highlight-sm">
+					<a href="/StageStores-coupons/957242">Stage Stores Coupons</a> <span
+						class="lt_grey font11">Extra 25% Off Any Single Item</span>
+				</div>
+				<div class="block-highlight-sm">
+					<a href="/coupons/peebles/957241">Peebles Coupons</a> <span
+						class="lt_grey font11">Extra 25% Off Any Single Item</span>
+				</div>
+			</div>
+
+			<div class="clear"></div>
+			<div id="copyright">Copyright &copy; 2013 dealspl.us. All Rights Reserved.</div>
+		</div>
+	</div>
+	
+  <script id="menuTemplate" type="text/x-jquery-tmpl">
+	<li class="cat-drop" style="display: none;" >
+	  <a class="cat-link"
+	     onmouseover="_${level}_${catIdx}Tmr = new timer(0.5, 'showStoreList(\'${type}\',\'_${level}_${catIdx}\')');_${level}_${catIdx}Tmr.start();"
+		 onmouseout="if(_${level}_${catIdx}Tmr){_${level}_${catIdx}Tmr.stop();}" 
+		 onclick="if(_${level}_${catIdx}Tmr){_${level}_${catIdx}Tmr.stop();}"  > 
+		 <strong class="menu-name-link">${catName}</strong> 
+		 <em class="menu-more-link" 
+		     id="more-${type}-_${level}_${catIdx}" 
+		     onclick="if(_${level}_${catIdx}Tmr){_${level}_${catIdx}Tmr.stop();}showStoreList('${type}', '_${level}_${catIdx}'); return false;">more</em>
+	  </a>
+	  <div class="clear"></div>
+	  <div class="submenu-drop" id="sub-${type}-_${level}_${catIdx}" style="display: none;">
+		<div class="mid-horiz">	
+		  <!--{%each children %}-->			
+	      <div class="cat-section">
+	        <a href="#" class="submenu-option" style="font-weight: bold; border-bottom: 1px solid #e5e5e5;">${$value.catName}</a>
+	        <!--{%each children %}-->	
+	        <a href="#${$value.catIdx}" class="submenu-option">${$value.catName}</a>	
+	        <!--{%/each%}-->	
+		  </div>					
+          <!--{%/each%}-->	
+          <div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		  <!--[if IE 6]><iframe class="w506"></iframe><![endif]-->
+		</div>
+	</li>
+  </script>				
+  <script id="contentTemplate" type="text/x-jquery-tmpl">
+	<tr>
+		<td class="col1">
+			<div class="deal_image_r_div">
+				<a href="#" title="${name}"><img class="img-scaling" src="${smallImgUrl}" width="80" alt="${name}" /></a>
+			</div>
+		</td>
+		<td class="col2">
+		    <a href="#" class="title">${name}</a>
+			<div class="desc"> ${description}<strong>${nprice}</strong> ${shippingFree}</div>
+			<div class="rowViewPrice">
+				<span class="oprice-g">${oprice}</span> 
+				<span class="nprice-g"><b>${nprice}</b></span>
+				<span style="font-size: 14px;">${shippingFree}</span>
+			</div>
+			<div>
+			  <div class="fleft">
+				<div class="fleft padt3 lt_grey">
+				  <a href="#">${sharedBy}</a> shared <span class="font11 lt_grey"> less than a minute ago</span>
+				</div>
+				<div class="clear"></div>
+			  </div>
+			  <div class="rowViewSite">
+			    <a href="#" target="_blank" rel="nofollow" class="iconMap rdLink">${vender}</a> 
+			    <a href="javascript:void(0);" class="marl5 mag-glass" onclick="$('#more_howto_desciption_1286399').slideToggle(300); return false;">More info</a>
+			  </div>
+			  <div class="clear"></div>
+			</div>
+		</td>
+		<td>
+		  <div class="plusButtonAbove">
+		    <a href="#" class="plusButtonCount"> 
+		      <span>4</span>
+		    </a> 
+		    <a href="javascript:void(0);" class="PlusButtonLink plusButton" data-type="1"></a>
+		  </div>
+		</td>
+	</tr>
+  </script>	
+						  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push([ '_setAccount', 'UA-348184-4' ]);
+		_gaq.push([ '_trackPageview' ]);
+
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			// s.parentNode.insertBefore(ga, s);
+		})();
+	</script>

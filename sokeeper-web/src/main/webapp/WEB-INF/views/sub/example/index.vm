@@ -1,0 +1,31 @@
+
+	    index ${url.get("server.image")}
+	    
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='currency'   maskedFormat='currency'    placeholder='0'   value='1.25' /> 
+		
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='number'     maskedFormat='zipcode'     placeholder='_'   value='1234567' /> 
+		
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='number'     maskedFormat='ssn'         placeholder='_'   value='12345678' /> 
+		
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='number'     maskedFormat='phonenumber' placeholder='_'   value='12345678' /> 
+		
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='default'    maskedFormat='date'        placeholder='_'   value='12122008' range='[1900,2009]' />
+		
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='default'    maskedFormat='time'        placeholder='_'   value='121257' />
+		
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='default'    maskedFormat='datetime'    placeholder='_'   />
+		
+		<label type=text class="component.RegExpMaskInput" unmaskedFormat='currency'   maskedFormat='currency'    placeholder='_' >
+		-1234567
+		</label> 
+		<label type=text class="component.RegExpMaskInput" unmaskedFormat='default'    maskedFormat='datetime'    placeholder='_' >
+		05262008 173555
+		</label> 
+		
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='default'    maskedFormat='number'     placeholder='_'   />
+		
+		<input type=text class="component.RegExpMaskInput" unmaskedFormat='default'    maskedFormat='float'      placeholder='_'   />
+	
+		<input type=text class="component.DateTimePicker"  showTime="true" id="dateTimePicker" />
+		
+		<input type=button class="component.DateTimePicker" showTime="false" target="dateTimePicker" value="PickTime" />

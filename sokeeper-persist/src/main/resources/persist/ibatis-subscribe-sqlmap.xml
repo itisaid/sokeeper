@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="subscribe">
+	<typeAlias alias="ChangesSubscriber" type="com.sokeeper.domain.ChangesSubscriber" />
+	<resultMap id="ChangesSubscriberResult" class="ChangesSubscriber" >
+		<result property="id"                column="id"              />
+		<result property="gmtCreated"        column="gmt_create"     />
+		<result property="gmtModified"       column="gmt_modified"    />
+		<result property="resourceType"      column="resource_type"   />
+		<result property="resourceId"        column="resource_id"     />
+		<result property="clientAddress" column="client_address"  />
+		<result property="serverAddress" column="server_address"  />
+	</resultMap>
+	<!-- resource subscribe list -->
+	<select id="getSubscribedResources" parameterClass="map" resultMap="ChangesSubscriberResult">
+		select * from resource_subscribe where client_address=#clientAddress# and server_address=#serverAddress#
+	</select>
+	<delete id="removeSubscriber" parameterClass="map">
+		delete from resource_subscribe where client_address=#clientAddress# and server_address=#serverAddress#
+	</delete>
+	<delete id="removeSubscriberFromGivenResource" parameterClass="map">
+		delete from resource_subscribe
+		where  client_address=#clientAddress# and server_address=#serverAddress#
+		   and resource_type=#resourceKey.resourceType# and resource_id=#resourceKey.resourceName#
+	</delete>
+	<delete id="removeSubscribersOfServers" parameterClass="[Ljava.lang.String;">
+		delete from resource_subscribe where server_address in(
+		<iterate conjunction="," open="" close="" >
+                #[]#
+		</iterate>
+		)
+	</delete>
+	<update id="addChangesSubscriber" parameterClass="ChangesSubscriber">
+		insert into resource_subscribe (gmt_create, gmt_modified,resource_type,resource_id,client_address,server_address)
+		values (now(),now(),#resourceType#,#resourceId#,#clientAddress#,#serverAddress#)
+		on duplicate key update gmt_modified=now()
+	</update>
+</sqlMap>

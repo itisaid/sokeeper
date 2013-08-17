@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Coupon Codes: Promo Code, Free Shipping, Discounts and Printable Movie Coupons</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="sokeeper.com - Save money by finding and sharing thousands of movie coupons, codes!">
+    <link rel="canonical" href="http://sokeeper.com/">
+    <link rel="shortcut icon" href="$request.contextPath/favicon.ico?v=36" type="image/x-icon">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/sokeeper">
+    <script type='text/javascript' src='$request.contextPath/lib/core.js'></script>
+  </head>  
+  <body onload='core.start();' >
+    <!--script class="component.CssLoader" csses="layout-structure,featuredView,forms,generic,layout-pages,media,type" ></script-->
+    $screen_content
+  </body>
+</html>

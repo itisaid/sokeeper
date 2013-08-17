@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>test</title>
+    <script type='text/javascript' src='lib/core.js' version_enable="2.0" ></script>
+    <style media="screen">
+            body {
+                background: #FFFFFFFF;
+                font: 300 100.01%/1.4 "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+                color: #000000;
+                margin: 40px;
+            }
+            #path {
+                font: 20px menlo, monospace;
+                width: 500px;
+                height: 50px;
+                position: absolute;
+                left: 45px;
+                top: 650px;
+                background: #000000;
+                color: #FFFFFF;
+                white-space: nowrap;
+                border: none;
+            }
+            #desc {
+                position: absolute;
+                top: 10px;
+                left: 580px;
+                width: 450px;
+                height: 300px;
+            }
+            #preview {
+                position: absolute;
+                top: 450px;
+                left: 580px;
+            }
+        </style>
+  </head>  
+  
+	<body onload='core.start();' > 
+	  	<div class="component.VectorImage" >
+	        <textarea id="path"></textarea>
+	        <div id="preview"></div>
+		</div>
+	</body>
+</html>  

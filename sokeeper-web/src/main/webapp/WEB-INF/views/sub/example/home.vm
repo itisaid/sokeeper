@@ -1,0 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>#springMessage("home.index.title")</title>
+  </head>
+	<body>
+	    #set( $foo={"name":"James"} )
+	    $foo.name
+	    <form action="home.htm" method="post">
+	        <input name="username" type="text"     value="$!user.username" />
+	        <input name="password" type="password" value="$!user.password" />
+	        <input type="submit" value="submit"/>
+	    </form>
+	</body>
+</html>

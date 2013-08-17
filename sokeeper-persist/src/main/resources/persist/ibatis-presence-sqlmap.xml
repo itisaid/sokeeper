@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="presence">
+	<typeAlias alias="NodeOnlineStatusDTO" type="com.sokeeper.persist.support.NodeOnlineStatusDTO" />
+	<typeAlias alias="NodeOnlineStatus" type="com.sokeeper.domain.NodeOnlineStatus" />
+	<resultMap id="NodeOnlineStatusResult" class="NodeOnlineStatus" >
+		<result property="id"            column="id"              />
+		<result property="gmtCreated"    column="gmt_create"     />
+		<result property="gmtModified"   column="gmt_modified"    />
+		<result property="gmtExpired"    column="gmt_expired"     />
+		<result property="isMaster"      column="is_master"       />
+		<result property="clientAddress" column="node_address"    />
+		<result property="serverAddress" column="p_node_address"  />
+	</resultMap>
+	<select id="listExpiredParentNodesAddresses" resultClass="java.lang.String">
+		select node_address from node_online_status where p_node_address='S' and now()>gmt_expired
+	</select>
+	<select id="listLiveParentNodesAddresses" resultClass="java.lang.String">
+		select node_address from node_online_status where p_node_address='S' and gmt_expired>=now()
+	</select>
+	<select id="listLiveParentNodes" resultMap="NodeOnlineStatusResult">
+		select * from node_online_status where p_node_address='S' and gmt_expired>=now()
+	</select>
+
+	<select id="listChildrenNodes" resultMap="NodeOnlineStatusResult" parameterClass="java.lang.String">
+		select * from node_online_status where gmt_expired>now() and p_node_address=#parentNodeAddress#
+	</select>
+	<sql id="addOrUpdateNodeSQL">
+		insert into node_online_status (gmt_create, gmt_modified, gmt_expired,node_address,p_node_address)
+		values (now(),now(),date_add(now(),interval #secondsOfNodeKeepAlive# second),#nodeOnlineStatus.clientAddress#,#nodeOnlineStatus.serverAddress#)
+		on duplicate key update id=last_insert_id(id),gmt_modified=now(), gmt_expired=date_add(now(),interval #secondsOfNodeKeepAlive# second)
+	</sql>
+	<insert id="addOrUpdateNodeVoid" parameterClass="NodeOnlineStatusDTO">
+		<include refid="addOrUpdateNodeSQL"></include>
+	</insert>
+	<insert id="addOrUpdateNodeReturn" parameterClass="NodeOnlineStatusDTO">
+		<include refid="addOrUpdateNodeSQL"></include>
+		<selectKey resultClass="java.lang.Long" type="post">
+		    select last_insert_id() as id
+		</selectKey>
+	</insert>
+
+	<update id="registerMasterNodes" parameterClass="[Ljava.lang.String;">
+		update node_online_status set is_master='1' where p_node_address='S' and gmt_expired>now()
+		    and
+				node_address in (
+				    <iterate conjunction="," open="" close="">
+			                #[]#
+				    </iterate>
+			    )
+	</update>
+	<update id="unregisterExpiredMasterNodes">
+		update node_online_status set is_master='0' where p_node_address='S' and is_master='1' and now() > gmt_expired
+	</update>
+    <select id="getMasterNodes" resultClass="java.lang.String" parameterClass="[Ljava.lang.String;">
+		select node_address from node_online_status where is_master='1' and p_node_address='S' and gmt_expired>now()
+		    <isNotEmpty prepend=" and ">
+			    node_address not in (
+				    <iterate conjunction="," open="" close="">
+			                #[]#
+				    </iterate>
+			    )
+		    </isNotEmpty>
+	</select>
+
+	<update id="unregisterChildNode" parameterClass="NodeOnlineStatus">
+		delete from node_online_status where p_node_address=#serverAddress# and node_address=#clientAddress#
+	</update>
+
+	<delete id="removeNodeAndChildrenNodes" parameterClass="[Ljava.lang.String;">
+		delete from node_online_status where
+		(
+			node_address in (
+		<iterate conjunction="," open="" close="">
+	                #[]#
+		</iterate>
+			)
+			or
+			p_node_address in (
+		<iterate conjunction="," open="" close="">
+	                #[]#
+		</iterate>
+			)
+		)
+	</delete>
+
+	<update id="extendNodesLifeTime" parameterClass="map">
+		update node_online_status set gmt_expired=date_add(now(),interval #secondsOfNodeKeepAlive# second)
+		where
+		(
+			node_address in (
+		<iterate conjunction="," open="" close="" property="parentNodeAddressList" >
+	                #parentNodeAddressList[]#
+		</iterate>
+			)
+		)
+	</update>
+
+</sqlMap>

@@ -1,0 +1,9 @@
+<toolbox>
+  <xhtml>true</xhtml>
+  <tool>
+     <key>url</key>
+     <scope>request</scope>
+     <class>com.sokeeper.web.util.URLToolForSpring</class>
+     <parameter name="configBeanName" value="webPropertyPlaceholderConfigurer"/>
+  </tool>
+</toolbox>

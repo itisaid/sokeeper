@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
+	default-autowire="byName">
+	<context:component-scan base-package="com.sokeeper.persist.support" />
+	<bean id="persistPropertyPlaceholderConfigurer"
+		class="com.sokeeper.util.PropertyPlaceholderConfigurer">
+		<property name="placeholderPrefix" value="${persist." />
+		<property name="locations">
+			<list>
+				<value>classpath:/persist.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"  destroy-method="close">
+		<property name="driverClass" value="${persist.jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${persist.jdbc.url}" />
+		<property name="user" value="${persist.jdbc.username}" />
+		<property name="password" value="${persist.jdbc.password}" />
+		<property name="acquireIncrement" value="${persist.jdbc.acquireIncrement}" />
+		<property name="maxPoolSize" value="${persist.jdbc.maxPoolSize}" />
+		<property name="minPoolSize" value="${persist.jdbc.minPoolSize}" />
+		<property name="initialPoolSize" value="${persist.jdbc.initialPoolSize}" />
+		<property name="maxIdleTime" value="${persist.jdbc.maxIdleTime}" />
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:/persist/ibatis-sqlmap.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+</beans>

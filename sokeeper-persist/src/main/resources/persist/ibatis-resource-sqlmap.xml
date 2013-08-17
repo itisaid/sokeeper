@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="resource">
+	<typeAlias alias="ResourceType" type="com.sokeeper.domain.ResourceType"  />
+	<typeAlias alias="AssociationChanges" type="com.sokeeper.domain.AssociationChanges" />
+	<typeAlias alias="ResourceChanges" type="com.sokeeper.domain.ResourceChanges" />
+	<typeAlias alias="ResourceChangesEvent" type="com.sokeeper.domain.ResourceChangesEvent" />
+	<typeAlias alias="AssociationChangesEvent" type="com.sokeeper.domain.AssociationChangesEvent" />
+	<typeAlias alias="ResourceEntity" type="com.sokeeper.domain.resource.ResourceEntity" />
+	<typeAlias alias="AttributeEntity" type="com.sokeeper.domain.resource.AttributeEntity" />
+	<typeAlias alias="AssociationEntity" type="com.sokeeper.domain.resource.AssociationEntity" />
+	<typeAlias alias="AssociationAttributeDTO" type="com.sokeeper.domain.resource.AssociationAttributeDTO" />
+	<typeAlias alias="ResourceAttributeDTO" type="com.sokeeper.domain.resource.ResourceAttributeDTO" />
+	<resultMap id="ResourceChangesResult" class="ResourceChanges" >
+		<result property="id"                      column="id"              />
+		<result property="gmtCreated"              column="gmt_create"      />
+		<result property="gmtModified"             column="gmt_modified"    />
+		<result property="clientAddress"           column="client_address"  />
+		<result property="serverAddress"           column="server_address"  />
+		<result property="changes"                 column="changes"         />
+		<result property="sequence"                column="seq"             />
+		<result property="resourceType"            column="resource_type"   />
+		<result property="resourceId"              column="resource_id"     />
+		<result property="acceptOwnerDiedEvent"    column="accept_died_evt" />
+	</resultMap>
+	<resultMap id="AssociationChangesResult" class="AssociationChanges" >
+		<result property="id"                      column="id"              />
+		<result property="gmtCreated"              column="gmt_create"      />
+		<result property="gmtModified"             column="gmt_modified"    />
+		<result property="clientAddress"           column="client_address"  />
+		<result property="serverAddress"           column="server_address"  />
+		<result property="changes"                 column="changes"         />
+		<result property="sequence"                column="seq"             />
+		<result property="leftType"                column="left_type"       />
+		<result property="leftId"                  column="left_id"         />
+		<result property="rightType"               column="right_type"      />
+		<result property="rightId"                 column="right_id"        />
+		<result property="acceptOwnerDiedEvent"    column="accept_died_evt" />
+		<result property="associationId"           column="association_id"  />
+	</resultMap>
+
+	<resultMap id="ResourceEntityResult" class="ResourceEntity" >
+		<result property="id"                      column="id"              />
+		<result property="gmtCreated"              column="gmt_create"      />
+		<result property="gmtModified"             column="gmt_modified"    />
+		<result property="resourceType"            column="resource_type"   />
+		<result property="resourceName"            column="resource_name"   />
+		<result property="version"                 column="version"         />
+	</resultMap>
+	<resultMap id="ResourceIdsResult" class="ResourceEntity" >
+		<result property="id"                      column="id"              />
+		<result property="resourceName"            column="resource_name"   />
+	</resultMap>
+
+	<resultMap id="AssociationEntityResult" class="AssociationEntity" >
+		<result property="id"                      column="id"              />
+		<result property="gmtCreated"              column="gmt_create"      />
+		<result property="gmtModified"             column="gmt_modified"    />
+		<result property="leftId"                  column="left_id"         />
+		<result property="rightId"                 column="right_id"        />
+		<result property="changed"                 column="changed"         />
+	</resultMap>
+
+
+	<resultMap id="AttributeEntityResult" class="AttributeEntity" >
+		<result property="id"                      column="id"              />
+		<result property="gmtCreated"              column="gmt_create"      />
+		<result property="gmtModified"             column="gmt_modified"    />
+		<result property="ownerId"                 column="owner_id"        />
+		<result property="key"                     column="attr_key"        />
+		<result property="value"                   column="attr_val"        />
+		<result property="description"             column="description"     />
+		<result property="type"                    column="attr_type"       />
+	</resultMap>
+	<resultMap id="AssociationAttributeDTOResult" class="AssociationAttributeDTO" >
+		<result property="attribute.id"            column="id"              />
+		<result property="attribute.gmtCreated"    column="gmt_create"      />
+		<result property="attribute.gmtModified"   column="gmt_modified"    />
+		<result property="attribute.ownerId"       column="owner_id"        />
+		<result property="attribute.key"           column="attr_key"        />
+		<result property="attribute.value"         column="attr_val"        />
+		<result property="attribute.description"   column="description"     />
+		<result property="attribute.type"          column="attr_type"       />
+		<result property="association.id"          column="associationId"   />
+		<result property="association.leftId"      column="leftId"          />
+		<result property="association.rightId"     column="rightId"         />
+		<result property="association.gmtCreated"  column="assGmtCreated"   />
+		<result property="association.gmtModified" column="assGmtModified"  />
+		<result property="association.changed"     column="assChanged"      />
+	</resultMap>
+	<resultMap id="ResourceAttributeDTOResult" class="ResourceAttributeDTO" >
+		<result property="attribute.id"            column="id"              />
+		<result property="attribute.gmtCreated"    column="gmt_create"      />
+		<result property="attribute.gmtModified"   column="gmt_modified"    />
+		<result property="attribute.ownerId"       column="owner_id"        />
+		<result property="attribute.key"           column="attr_key"        />
+		<result property="attribute.value"         column="attr_val"        />
+		<result property="attribute.description"   column="description"     />
+		<result property="attribute.type"          column="attr_type"       />
+		<result property="resource.id"             column="resId"           />
+		<result property="resource.version"        column="resVersion"      />
+		<result property="resource.gmtCreated"     column="resGmtCreated"   />
+		<result property="resource.gmtModified"    column="resGmtModified"  />
+		<result property="resource.description"    column="resDescription"  />
+	</resultMap>
+	<resultMap id="ResourceTypeResult" class="ResourceType" >
+		<result property="id"                  column="id"              />
+		<result property="gmtCreated"          column="gmt_create"     />
+		<result property="gmtModified"         column="gmt_modified"    />
+		<result property="typeName"            column="type_name"       />
+		<result property="onlineResource"      column="online_res"      />
+		<result property="keepHistoric"        column="keep_historic"   />
+	</resultMap>
+
+	<resultMap id="ResourceChangesEventResult" class="ResourceChangesEvent" >
+		<result property="subscriber"    column="client_address"  />
+		<result property="changes"       column="changes"         />
+		<result property="resourceType"  column="resource_type"   />
+		<result property="resourceId"    column="resource_id"     />
+		<result property="sequence"      column="sequence"     />
+	</resultMap>
+	<resultMap id="AssociationChangesEventResult" class="AssociationChangesEvent" >
+		<result property="subscriber"    column="client_address"  />
+		<result property="changes"       column="changes"         />
+		<result property="leftType"      column="left_type"   />
+		<result property="leftId"        column="left_id"     />
+		<result property="rightType"     column="right_type"   />
+		<result property="rightId"       column="right_id"     />
+		<result property="sequence"      column="sequence"     />
+
+	</resultMap>
+	<cacheModel id="resource-type-cache" type="LRU">
+		<flushInterval hours="24"                                    />
+		<flushOnExecute statement="resource.flushCachedResourceTypes"/>
+		<property name="size" value="1000"                           />
+	</cacheModel>
+	<!-- resource changes -->
+	<update id="updateResourceChangesToOwnerDied" parameterClass="map">
+		update resource_changes set gmt_modified=now(),changes='DIED',seq=nextval('resource_changes')
+		where client_address=#clientAddress# and server_address=#serverAddress#
+		      and accept_died_evt='1' and (changes = 'CREATED' or changes = 'UPDATED')
+	</update>
+	<update id="updateResourceChangesToServerDied" parameterClass="[Ljava.lang.String;">
+		update resource_changes set gmt_modified=now(),changes='DIED',seq=nextval('resource_changes')
+		where (changes = 'CREATED' or changes = 'UPDATED') and accept_died_evt='1' and server_address in (
+		<iterate conjunction="," open="" close="" >
+                #[]#
+		</iterate>
+		)
+	</update>
+	<update id="updateAssociationChangesToDeletedByAssociationIds" parameterClass="[Ljava.lang.Long;">
+		update association_changes set gmt_modified=now(),changes='DELETED',seq=nextval('resource_changes')
+		where (changes = 'CREATED' or changes = 'UPDATED') and association_id in (
+		<iterate conjunction="," open="" close="" >
+                #[]#
+		</iterate>
+		)
+	</update>
+
+	<update id="updateAssociationChangesToDeletedByResourceTypeAndNames" parameterClass="map">
+		update association_changes set gmt_modified=now(),changes='DELETED',seq=nextval('resource_changes')
+		where (changes = 'CREATED' or changes = 'UPDATED') and (
+		  (
+		    left_type=#resourceType# and left_id in (
+		<iterate conjunction="," open="" close="" property="resourceNames" >
+	                #resourceNames[]#
+		</iterate>
+		    )
+		  )
+		  or
+		  (
+		    right_type=#resourceType# and right_id in (
+		<iterate conjunction="," open="" close="" property="resourceNames" >
+	                #resourceNames[]#
+		</iterate>
+		    )
+		  )
+		)
+	</update>
+
+	<update id="updateAssociationChangesToOwnerDied" parameterClass="map">
+		update association_changes set gmt_modified=now(),changes='DIED',seq=nextval('resource_changes')
+		where client_address=#clientAddress# and server_address=#serverAddress#
+		      and accept_died_evt='1' and (changes = 'CREATED' or changes = 'UPDATED')
+	</update>
+	<update id="updateAssociationChangesToServerDied" parameterClass="[Ljava.lang.String;">
+		update association_changes set gmt_modified=now(),changes='DIED',seq=nextval('resource_changes')
+		where (changes = 'CREATED' or changes = 'UPDATED') and accept_died_evt='1' and server_address in (
+		<iterate conjunction="," open="" close="" >
+                #[]#
+		</iterate>
+		)
+	</update>
+	<update id="addOrUpdateResourceChanges" parameterClass="ResourceChanges">
+		insert into resource_changes (gmt_create, gmt_modified,resource_type,resource_id,client_address,server_address,changes,seq,accept_died_evt)
+		values (now(),now(),#resourceType#,#resourceId#,#clientAddress#,#serverAddress#,#changes#,nextval('resource_changes'),#acceptOwnerDiedEvent#)
+		on duplicate key update id=last_insert_id(id),gmt_modified=now(),changes=#changes#,client_address=#clientAddress#,server_address=#serverAddress#,seq=nextval('resource_changes')
+	</update>
+	<update id="addOrUpdateAssociationChanges" parameterClass="AssociationChanges">
+		insert into association_changes (gmt_create, gmt_modified,client_address,server_address,changes,seq,accept_died_evt,left_type,left_id,right_type,right_id,association_id)
+		values (now(),now(),#clientAddress#,#serverAddress#,#changes#,nextval('resource_changes'),#acceptOwnerDiedEvent#,#leftType#,#leftId#,#rightType#,#rightId#,#associationId#)
+		on duplicate key update gmt_modified=now(),changes=#changes#,association_id=#associationId#,client_address=#clientAddress#,server_address=#serverAddress#,seq=nextval('resource_changes')
+	</update>
+	<update id="registerResourceType" parameterClass="ResourceType">
+		insert into resource_types (gmt_create, gmt_modified,type_name,online_res,keep_historic)
+		values (now(),now(),#typeName#,#onlineResource#,#keepHistoric#)
+		on duplicate key update id=last_insert_id(id),gmt_modified=now()
+	</update>
+	<select id="getResourceType" resultMap="ResourceTypeResult" parameterClass="java.lang.String" cacheModel="resource-type-cache" >
+		select * from resource_types where type_name=#typeName#
+	</select>
+	<select id="flushCachedResourceTypes">
+		select 1
+	</select>
+	<select id="getCurrentSequenceOfChanges" resultClass="java.lang.Long">
+		select currval('resource_changes')
+	</select>
+	<select id="listResourceChangesEvent" parameterClass="map" resultMap="ResourceChangesEventResult">
+    select
+        s.client_address,c.resource_type,c.resource_id,c.changes,c.seq sequence
+    from
+        resource_changes c,resource_subscribe s
+    where
+        c.resource_type=s.resource_type and c.resource_id=s.resource_id
+        and c.seq >= #sequenceFrom# and #sequenceTo# >= c.seq
+        and s.server_address in (
+		<iterate conjunction="," open="" close="" property="servers">
+	                #servers[]#
+		</iterate>
+		)
+	group by c.id,s.client_address
+	</select>
+	<select id="listResourceChangesEventByClientAddress" parameterClass="map" resultMap="ResourceChangesEventResult">
+    select
+        s.client_address,c.resource_type,c.resource_id,c.changes,c.seq sequence
+    from
+        resource_changes c,resource_subscribe s
+    where
+        c.resource_type=s.resource_type and c.resource_id=s.resource_id
+        and c.seq >= #sequenceFrom# and #sequenceTo# >= c.seq
+        and s.server_address = #serverAddress# and s.client_address=#clientAddress#
+	group by c.id,s.client_address
+	</select>
+	<select id="listAssociationChangesEvent" parameterClass="map" resultMap="AssociationChangesEventResult">
+    select
+        s.client_address,c.left_type,c.left_id,c.right_type,c.right_id,c.changes,c.seq sequence
+    from
+        association_changes c,resource_subscribe s
+    where
+        (   (c.left_type=s.resource_type and c.left_id=s.resource_id)
+            or
+            (c.right_type=s.resource_type and c.right_id=s.resource_id)
+        )
+        and c.seq >= #sequenceFrom# and #sequenceTo# >= c.seq
+        and s.server_address in (
+		<iterate conjunction="," open="" close="" property="servers">
+	        #servers[]#
+		</iterate>
+		)
+	group by c.id,s.client_address
+	</select>
+	<select id="listAssociationChangesEventByClientAddress" parameterClass="map" resultMap="AssociationChangesEventResult">
+    select
+        s.client_address,c.left_type,c.left_id,c.right_type,c.right_id,c.changes,c.seq sequence
+    from
+        association_changes c,resource_subscribe s
+    where
+        (   (c.left_type=s.resource_type and c.left_id=s.resource_id)
+            or
+            (c.right_type=s.resource_type and c.right_id=s.resource_id)
+        )
+        and c.seq >= #sequenceFrom# and #sequenceTo# >= c.seq
+        and s.server_address=#serverAddress# and s.client_address=#clientAddress#
+	group by c.id,s.client_address
+	</select>
+	<!-- resourceEntities maintain -->
+	<update id="addOrUpdateResourceEntity" parameterClass="ResourceEntity">
+		insert into resources (id,gmt_create, gmt_modified,resource_type,resource_name,description,version)
+		values (nextval('resources'),now(),now(),#resourceType#,#resourceName#,#description#,1)
+		on duplicate key update gmt_modified=now(),description=#description#,version=version+1
+	</update>
+	<update id="addOrUpdateAssociationEntity" parameterClass="AssociationEntity">
+		insert into association (id,gmt_create, gmt_modified,left_id,right_id)
+		values (nextval('resources'),now(),now(),#leftId#,#rightId#)
+		on duplicate key update gmt_modified=now(),changed='1'
+	</update>
+	<update id="removeNonHistoricResourceByIds" parameterClass="[Ljava.lang.Long;">
+		delete from resources where id in (
+		<iterate conjunction="," open="" close="">
+	        #[]#
+		</iterate>
+		)
+	</update>
+	<update id="removeAssociationByIds" parameterClass="[Ljava.lang.Long;">
+		delete from association where id in (
+		<iterate conjunction="," open="" close="">
+	        #[]#
+		</iterate>
+		)
+	</update>
+	<update id="addAttributeEntity" parameterClass="AttributeEntity">
+		insert into attributes (gmt_create, gmt_modified,owner_id,attr_key,attr_val,attr_type,description)
+		values (now(),now(),#ownerId#,#key#,#value#,#type#,#description#)
+	</update>
+	<update id="updateAttributeEntity" parameterClass="AttributeEntity">
+		update attributes set gmt_modified=now(),owner_id=#ownerId#,attr_key=#key#,attr_val=#value#,attr_type=#type#,description=#description#
+		where id=#id#
+	</update>
+	<update id="removeAttrsByAttrIds" parameterClass="[Ljava.lang.Long;">
+		delete from attributes where id in (
+		<iterate conjunction="," open="" close="">
+	        #[]#
+		</iterate>
+		)
+	</update>
+	<update id="removeAttrsByOwnerIds" parameterClass="[Ljava.lang.Long;">
+		delete from attributes where owner_id in (
+		<iterate conjunction="," open="" close="">
+	        #[]#
+		</iterate>
+		)
+	</update>
+	<select id="getResourceEntity" resultMap="ResourceEntityResult" parameterClass="map" >
+		select * from resources where resource_type=#resourceType# and resource_name=#resourceName#
+	</select>
+	<sql id="geAssociationWithAttributesSQL">
+        select ass.id associationId, ass.changed assChanged,ass.left_id leftId,ass.right_id rightId,ass.gmt_create assGmtCreated,ass.gmt_modified assGmtModified,attr.*
+		from association ass left join attributes attr on ass.id=attr.owner_id
+	</sql>
+	<select id="geAssociationIdByKeys" resultClass="java.lang.Long" parameterClass="map" >
+		select a.id from association a, resources ls,resources rs
+		where ls.resource_type=#leftKey.resourceType# and ls.resource_name=#leftKey.resourceName#
+		and   rs.resource_type=#rightKey.resourceType# and rs.resource_name=#rightKey.resourceName#
+		and   a.left_id=ls.id and a.right_id=rs.id
+	</select>
+	<select id="geAssociationWithAttributesById" resultMap="AssociationAttributeDTOResult" parameterClass="java.lang.Long" >
+		<include refid="geAssociationWithAttributesSQL"></include>
+		where ass.id=#id#
+	</select>
+	<select id="geAssociationWithAttributesByLeftIdRightId" resultMap="AssociationAttributeDTOResult" parameterClass="map" >
+		<include refid="geAssociationWithAttributesSQL"></include>
+		where ass.left_id=#leftId# and ass.right_id=#rightId#
+	</select>
+	<select id="geAssociationWithAttributesByLeftId" resultMap="AssociationAttributeDTOResult" parameterClass="java.lang.Long" >
+		<include refid="geAssociationWithAttributesSQL"></include>
+		where ass.left_id=#leftId#
+	</select>
+	<select id="geAssociationWithAttributesByRightId" resultMap="AssociationAttributeDTOResult" parameterClass="java.lang.Long" >
+		<include refid="geAssociationWithAttributesSQL"></include>
+		where ass.right_id=#rightId#
+	</select>
+	<select id="geResourceWithAttributes" resultMap="ResourceAttributeDTOResult" parameterClass="map" >
+		select res.id resId,res.version resVersion,res.gmt_create resGmtCreated,res.gmt_modified resGmtModified,res.description resDescription,attr.*
+		from resources res left join attributes attr on res.id=attr.owner_id
+		where res.resource_type=#resourceType# and res.resource_name=#resourceName#
+	</select>
+	<select id="getResourceIdsByTypeAndNames" resultMap="ResourceIdsResult" parameterClass="map" >
+        select resource_name,id from resources where resource_type=#resourceType# and resource_name in (
+		<iterate conjunction="," open="" close="" property="resourceNames">
+                    #resourceNames[]#
+		</iterate>
+        )
+	</select>
+	<select id="getOwnerDiedResourceIdsByServerAddresses" resultClass="java.lang.Long" parameterClass="[Ljava.lang.String;">
+        select r.id from resources r,resource_changes c where r.resource_type=c.resource_type and r.resource_name=c.resource_id and
+        c.changes='DIED' and c.server_address in (
+		<iterate conjunction="," open="" close="" >
+                #[]#
+		</iterate>
+        )
+	</select>
+	<select id="getOwnerDiedResourceIdsByOwnerAddress" resultClass="java.lang.Long" parameterClass="map">
+        select r.id from resources r,resource_changes c where r.resource_type=c.resource_type and r.resource_name=c.resource_id and
+        c.changes='DIED' and c.client_address=#clientAddress# and c.server_address=#serverAddress#
+	</select>
+	<select id="getAssociationIdsByResourceIds" resultClass="java.lang.Long" parameterClass="[Ljava.lang.Long;">
+		select id from association where left_id in (
+		<iterate conjunction="," open="" close="">
+	        #[]#
+		</iterate>
+		) or right_id in (
+		<iterate conjunction="," open="" close="">
+	        #[]#
+		</iterate>
+		)
+	</select>
+</sqlMap>
