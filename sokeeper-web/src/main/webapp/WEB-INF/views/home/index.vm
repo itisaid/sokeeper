@@ -1,28 +1,178 @@
-	<div id="header">
+	<div class="header">
 		<div class="box">
-			<a id="logo" href="$request.contextPath" title="sokeeper.com Home">
+			<a class="logo" href="$request.contextPath" title="sokeeper.com Home">
 			  <img src="$request.contextPath/images/sokeeper/logo.png" alt="sokeeper.com logo" />
 			</a>
 			<div id="top-search">
-				<span id="selectDeals" class="iconMap dealOn"><a>Movie</a></span>
-				<span id="selectCoupons" class="iconMap couponOff"><a>Music</a></span>
-				<form method="get" name="main_search" id="mainSearchBar" action="$request.contextPath/home/index.htm">
+				<span class="iconMap movieOn selectMovies"><a>Movie</a></span>
+				<span class="iconMap musicOff selectMusics"><a>Music</a></span>
+				<form method="post" name="main_search" id="mainSearchBar" action="$request.contextPath/home/index.htm">
 					<div>
 					    <input type="hidden" name="topic" value="movie">
 						<div id="search_div">
-							<input type="text" maxlength="128" name="keyword" class="search_input" value="" id="search_auto_bar" disabled="disabled" />
+							<input type="text" maxlength="128" name="keywords" class="search_input" value="$!query.keywords" id="search_auto_bar"/>
 						</div>
 						<input type="submit" id="top_search_bttn" class="iconMap" value="Search" />
 					</div>
 				</form>
-				<div id="topSearchKeywords">
-					Popular: <a href="/bestbuy-coupons" title="Best Buy coupons" >Best Buy</a> 
-					         <a href="/6pm-coupons" title="6PM coupons" >6PM</a>
-				</div>
-				<a href="$request.contextPath/home/index.htm" id="submitButton" class="iconMap">Submit</a>
 			</div>
 		</div>		
 		<div class="clear"></div>
 	</div>
 
+	<div id="topNavContainer">
+		<div class="box">
+			<ul id="topMenu">
+				<li><a href="$request.contextPath/home/index.htm">Movie</a></li>
+				<li><a href="$request.contextPath/home/index.htm">Music</a></li> 
+			</ul>
+			<ul id="userMenu">
+				<li><a href="$request.contextPath/home/login.htm" class="firstMenuLink">Log In</a></li>
+				<li><a href="$request.contextPath/home/signup.htm"><span>New User?</span> Sign Up!</a></li>
+			</ul>
+			<div class="clear"></div> 
+		</div>
+	</div>
 	
+	<div class="clear"></div>
+	
+	<div id="subNav">
+		<div class="menu-cat">
+			<ul class="menu">
+			</ul>
+		</div>
+	</div>
+	
+	<div id="container">
+		<div id="main_content" class="content">
+			<div class="content_right">
+				<div class="module_sm">
+					<div class="top">
+						<!--ie sucks-->
+					</div>
+					<div class="content">
+						<h1 id="homeH1">Popular Movies</h1>
+						<div class="popularMovies">
+							<a href="/6pm-coupons" title="6pm Shoes coupons" class="font12" >6pm Shoes</a> 
+							<a href="/aa-coupons" title="American Airlines coupons" class="font10" >American Airlines</a> 
+							<a href="/aeropostale-coupons" title="Aeropostale coupons" class="font20" >Aeropostale</a> 
+							<a href="/amazon-coupons" title="Amazon coupons" class="font20" >Amazon</a> 
+							<a href="/apple-coupons" title="Apple coupons" class="font11" >Apple</a> 
+						</div>
+					</div>
+					<div class="bot">
+						<!--ie sucks-->
+					</div>
+				</div>
+
+				<div class="module_sm">
+					<div class="top">
+						<!--ie sucks-->
+					</div>
+					<div class="content">
+						<h3>Today's Top Movies</h3>
+						<table border="0" cellspacing="0" cellpadding="0" width="100%">
+							<tr>
+								<td class="front-top-5-plus">
+								  <a href="" class="iconMap plus-lg" >
+										55<br/><span class="plus-lg-text">saved</span></a></td>
+								<td class="front-top-5-desc">
+								  <a href="" >
+								  See's Candies Mother's Day Sale + $5 Off Coupon Sale</a></td>
+							</tr>
+							<tr>
+								<td class="front-top-5-plus">
+								  <a href="" class="iconMap plus-lg" >
+										54<br/> <span class="plus-lg-text">saved</span>
+								</a></td>
+								<td class="front-top-5-desc">
+								  <a href="" >Top 5 at The Box
+										Office: Movie Times, Releases, & Deals! Movies</a></td>
+							</tr>
+						</table>
+					</div>
+					<div class="bot">
+						<!--ie sucks-->
+					</div>
+				</div>
+								
+				<div class="module_sm">
+					<div class="top">
+						<!--ie sucks-->
+					</div>
+					<div class="content">
+						<h3>
+							<a href="/answer">Recent Questions</a>
+						</h3>
+						<table id="listRecentQuestions" width="100%" cellspacing="0">
+							<tr>
+								<td>
+								    <a href="" title="">
+								      <img src="http://img.dealspl.us/profile_pic/small/82000/82734_1357604237.jpg" width="18" height="18" class="small_img" alt="glwrks"></a></td>
+								<td>
+								    <a href="">LivingSocial had Cyber-Attack - from email 7/26/13 8:31 PM</a><br/>glwrks 54
+									minutes ago</td>
+							</tr>
+						</table>
+						<a class="askLinkBoxSmall" href="">Ask a Question</a>
+						<div class="clear"></div>
+					</div>
+					<div class="bot">
+						<!--ie sucks-->
+					</div>
+				</div>
+			</div>
+
+			<div class="content_left">
+				<div class="module_lg">
+					<div id="allDeals">
+						<table id="rowViewRow" cellpadding="0" cellspacing="0" width="100%">
+						    <!-- BEGIN -->
+						    #foreach($movie in $movies)
+							<tr>
+								<td class="col1">
+									<div class="movie_image_r_div">
+										<a href="#" title="$!movie.name"><img class="img-scaling" src="$!movie.imageUrl" width="80" alt="$!movie.name" /></a>
+									</div>
+								</td>
+								<td class="col2">
+								    <a href="#" class="title">$!movie.name</a>
+									<div class="desc"> $!movie.description<strong>$!movie.price</strong>包邮哦，亲</div>
+									<div class="rowViewPrice">
+										<span class="oprice-g">$!movie.oprice</span> 
+										<span class="nprice-g"><b>$!movie.price</b></span>
+										<span style="font-size: 14px;">包邮哦，亲</span>
+									</div>
+									<div>
+									  <div class="fleft">
+										<div class="fleft padt3 lt_grey">
+										  <a href="#">$!movie.sharedBy</a> shared <span class="font11 lt_grey"> less than a minute ago</span>
+										</div>
+										<div class="clear"></div>
+									  </div>
+									  <div class="rowViewSite">
+									    <a href="#" target="_blank" rel="nofollow" class="iconMap rdLink">${vender}</a> 
+									    <a href="javascript:void(0);" class="marl5 mag-glass">More info</a>
+									  </div>
+									  <div class="clear"></div>
+									</div>
+								</td>
+								<td>
+								  <div class="plusButtonAbove">
+								    <a href="#" class="plusButtonCount"> 
+								      <span>4</span>
+								    </a> 
+								    <a href="" class="PlusButtonLink plusButton" data-type="1"></a>
+								  </div>
+								</td>
+							</tr>
+							#end
+							<!-- END -->						
+						</table>						
+					</div>
+				</div>
+			</div>
+
+			<div class="clear"></div>
+		</div>
+	</div>

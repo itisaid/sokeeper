@@ -30,19 +30,19 @@ img {
 	clear: both
 }
 
-#header {
+.header {
 	background-color: #6484a1;
 	height: 110px;
-	background: url('../images/sokeeper/bg_pattern_01192010.gif') repeat
+	background: url('../images/sokeeper/bg_pattern.gif') repeat
 }
 
-#header .box {
+.header .box {
 	margin: 0 auto;
 	width: 950px;
 	position: relative
 }
 
-#logo {
+.logo {
 	position: absolute;
 	left: 3px;
 	top: -2px
@@ -56,7 +56,7 @@ img {
 	margin: 14px 0 0 5px
 }
 
-#top-search .dealOn {
+#top-search .movieOn {
 	background-position: 0 0
 }
 
@@ -69,7 +69,7 @@ img {
 	background-position: 0 -35px
 }
 
-#top-search .couponOff {
+#top-search .musicOff {
 	background-position: 0 -95px;
 	height: 21px
 }
@@ -95,19 +95,17 @@ img {
 	color: #069
 }
 
-
-#selectDeals {
+.selectMovies {
 	position: absolute;
 	top: 0px;
 	left: 0px
 }
 
-#selectCoupons {
+.selectMusics {
 	position: absolute;
 	top: 0px;
 	left: 80px
 }
-
 
 #mainSearchBar {
 	margin: 0
@@ -118,7 +116,7 @@ img {
 	position: absolute;
 	top: 24px;
 	left: -14px;
-	background: #efeff0 url('../images/sokeeper/search_input_bg_01192010.gif')
+	background: #efeff0 url('../images/sokeeper/search_input_bg.gif')
 		repeat-x top left;
 	border-top: 1px solid #446786;
 	border-bottom: 1px solid #446786;
@@ -140,7 +138,7 @@ input.search_input {
 }
 
 .iconMap {
-	background: url('../images/sokeeper/sprite.png?42') no-repeat
+	background: url('../images/sokeeper/sprite.png') no-repeat
 }
 
 #top_search_bttn {
@@ -161,34 +159,666 @@ input.search_input {
 	background-position: 0 -165px
 }
 
-#topSearchKeywords {
-	position: absolute;
-	top: 74px;
-	left: -15px;
+
+#topNavContainer {
+	background: #162048;
+	min-width: 100%;
+	width: 100%;
+	height: 30px;
+	border-top: 1px solid #323663
+}
+
+#topNavContainer .box {
+	width: 945px;
+	padding-left: 5px;
+	margin: 0 auto;
+	background: transparent;
+	text-align: left
+}
+
+
+ul {
+	margin: 0;
+	padding: 0 0 0 20px
+}
+
+
+ul,li {
+	line-height: 18px
+}
+
+#topMenu {
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: auto
+}
+
+
+#topMenu li {
+	float: left;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	text-align: center;
+	margin-right: 3px
+}
+
+#topMenu li a {
+	display: block;
+	padding: 6px 15px 8px 15px;
+	font: bold 14px Arial;
+	color: white
+}
+
+#topMenu li.activeTab a {
+	color: #1D2C5A;
+	position: relative;
+	background-color: #E1E5E9;
+	margin-top: -4px;
+	cursor: pointer;
+	padding: 9px 14px
+}
+
+#topMenu li a:hover {
+	text-decoration: none;
+	color: #7f869b;
+	cursor: pointer;
+	position: relative
+}
+
+.s_tag_icon ul,li {
+	margin-left: 0;
+	padding-left: 0
+}
+
+li {
+	margin: 0;
+	padding: 0
+}
+
+
+#userMenu {
+	float: right;
+	margin: 0;
+	padding: 0;
+	width: auto;
 	font-size: 11px
 }
 
-#topSearchKeywords a {
-	color: white;
-	padding: 0 4px
-}
-
-#submitButton {
-	position: absolute;
+#userMenu li {
+	float: left;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	text-align: center;
 	display: block;
-	top: 24px;
-	left: 557px;
-	background-position: 0 -210px;
-	width: 87px;
-	height: 34px;
-	font: bold 20px Arial;
+	border-left: 1px solid #32325c;
+	line-height: 28px;
+	padding: 0 12px
+}
+
+#userMenu li a {
+	width: auto;
+	padding: 2px 3px;
+	margin-top: 3px;
+	color: white
+}
+
+#userMenu .firstMenuLink {
+	border-left: 0
+}
+
+#userMenu li a:hover {
+	text-decoration: none;
+	color: #cff;
+	background-color: #323663
+}
+
+#userMenu span {
+	font-size: 11px;
+	font-weight: bold;
+	color: #b3d5e9
+}
+ 
+
+#container {
+	margin: 10px auto 20px;
+	width: 950px;
+	min-height: 350px
+}
+
+
+#main_content {
+	text-align: left;
+	padding-left: 5px
+}
+
+
+.content .content_right {
+	float: right;
+	width: auto;
+	padding: 10px 0 0 0;
+	background-color: white
+}
+
+
+.module_sm {
+	width: 300px;
+	margin: 0 0 15px 0;
+	height: auto
+}
+
+.module_sm .top {
+	width: 300px;
+	height: 6px;
+	background: transparent url('../images/sokeeper/sprite.png?42') no-repeat 0	-934px;
+	padding: 0 !important;
+	border: 0 !important
+}
+
+
+.module_sm .content {
+	width: 278px;
+	height: auto;
+	background: transparent;
+	padding: 3px 10px 10px 10px;
+	border-left: 1px solid #c3cdd6;
+	border-right: 1px solid #c3cdd6;
+	overflow: hidden
+}
+
+
+h1 {
+	font: bold 18px Arial;
+	color: #111;
+	padding: 5px 20px 5px 0;
+	background-color: white;
+	margin: 0
+}
+
+h1#homeH1 {
+	font: normal 18px Georgia, Arial, Verdana;
+	padding-top: 0
+}
+
+
+.popularMovies {
+	text-align: center
+}
+
+
+.font10 {
+	font-size: 10px
+}
+
+.font11 {
+	font-size: 11px
+}
+
+.font12 {
+	font-size: 12px
+}
+
+.font13 {
+	font-size: 13px
+}
+
+.font14 {
+	font-size: 14px
+}
+
+.font15 {
+	font-size: 15px
+}
+
+.font16 {
+	font-size: 16px
+}
+
+.font17 {
+	font-size: 17px
+}
+
+.font18 {
+	font-size: 18px
+}
+
+.font19 {
+	font-size: 19px
+}
+
+.font20 {
+	font-size: 20px
+}
+
+.font24 {
+	font-size: 24px
+}
+
+
+.popularMovies a {
+	line-height: 125%;
+	color: #526e83;
+	padding: 0 3px
+}
+
+.module_sm .bot {
+	width: 300px;
+	height: 6px;
+	background: transparent url('../images/sokeeper/sprite.png') no-repeat 0 -944px
+}
+
+ 
+h3 {
+	font: normal 18px Georgia, Arial, Verdana;
+	padding: 0 10px 8px 0;
+	margin: 0
+}
+
+
+
+td.front-top-5-plus {
+	border-top: 1px solid #eee;
+	padding: 8px 0 5px;
+	vertical-align: top;
+	width: 58px;
+	text-align: center
+}
+
+
+a.plus-lg {
+	display: block;
+	width: 53px;
+	height: 29px;
+	padding-top: 5px;
+	color: #111838;
+	background-position: 2px -521px;
+	text-align: center;
+	font: bold 14px Arial, Tahoma;
+	line-height: 9px
+}
+
+a:hover.plus-lg {
+	text-decoration: none
+}
+
+
+a:hover.plus-lg {
+	text-decoration: none
+}
+
+span.plus-lg-text {
+	font: normal 10px Arial;
+	color: #111838;
+	text-decoration: none
+}
+
+
+td.front-top-5-desc {
+	border-top: 1px solid #eee;
+	padding: 7px 0 5px;
+	vertical-align: top
+}
+
+
+.content .content_left {
+	float: left;
+	width: 625px;
+	margin: 10px 0 0 0
+}
+
+
+.module_lg {
+	width: 625px;
+	margin: 0 0 15px 0;
+	height: auto
+}
+
+
+#rowViewRow td {
+	vertical-align: top;
+	padding: 10px 0 20px 0px
+}
+
+#rowViewRow .col1 {
+	text-align: center;
+	width: 80px;
+	padding-top: 12px
+}
+
+#rowViewRow .col2 {
+	padding: 7px 10px 20px 20px
+}
+
+#rowViewRow .title {
+	font-size: 15px;
+	text-decoration: underline
+}
+
+#rowViewRow .desc {
+	padding-top: 5px;
+	width: 465px;
+	overflow: hidden
+}
+
+
+.movie_image_r_div {
+	height: auto;
+	width: 100%;
 	color: white;
-	padding: 11px 0 0 26px;
-	border-width: 0
+	position: relative
+}
+ 
+.img-scaling {
+	-ms-interpolation-mode: bicubic
 }
 
-#submitButton:hover {
-	background-position: 0 -255px
+
+.rowViewPrice {
+	padding: 5px 0
+}
+
+.rowViewSite {
+	padding: 4px 0 0 5px;
+	float: left;
+	font-size: 11px
+}
+
+.rowViewPrice,.rowViewPrice span {
+	font-size: 16px
+}
+
+.rowViewPrice .bar {
+	font-size: 18px;
+	color: #ddd
 }
 
 
+.oprice-g {
+	text-decoration: line-through;
+	color: #888
+}
+
+
+.nprice-g {
+	font-weight: bold;
+	color: #0F054A;
+	font-size: 16px
+}
+
+.nprice-g-s {
+	font-weight: bold;
+	color: #0F054A;
+	font-size: 11px
+}
+
+
+.fleft {
+	float: left !important
+}
+
+.fright {
+	float: right !important
+}
+
+.fnone {
+	float: none !important
+}
+
+
+
+.lt_grey {
+	color: #888
+}
+
+
+.padl0 {
+	padding-left: 0
+}
+
+.padr0 {
+	padding-right: 0
+}
+
+.pad3 {
+	padding: 3px
+}
+
+.padt3 {
+	padding-top: 3px
+}
+
+.padb3 {
+	padding-bottom: 3px
+}
+
+.padl3 {
+	padding-left: 3px
+}
+
+.padr3 {
+	padding-right: 3px
+}
+
+.pad5 {
+	padding: 5px
+}
+
+.padt5 {
+	padding-top: 5px
+}
+
+.padb5 {
+	padding-bottom: 5px
+}
+
+.padl5 {
+	padding-left: 5px
+}
+
+.padr5 {
+	padding-right: 5px
+}
+
+.pad8 {
+	padding: 8px
+}
+
+.padt8 {
+	padding-top: 8px
+}
+
+.padb8 {
+	padding-bottom: 8px
+}
+
+.padl8 {
+	padding-left: 8px
+}
+
+.padr8 {
+	padding-right: 8px
+}
+
+.pad10 {
+	padding: 10px
+}
+
+.padt10 {
+	padding-top: 10px
+}
+
+.padb10 {
+	padding-bottom: 10px
+}
+
+.padl10 {
+	padding-left: 10px
+}
+
+.padr10 {
+	padding-right: 10px
+}
+
+.pad15 {
+	padding: 15px
+}
+
+.padt15 {
+	padding-top: 15px
+}
+
+.padb15 {
+	padding-bottom: 15px
+}
+
+.padl15 {
+	padding-left: 15px
+}
+
+.padr15 {
+	padding-right: 15px
+}
+
+.pad20 {
+	padding: 20px
+}
+
+.padt20 {
+	padding-top: 20px
+}
+
+.padb20 {
+	padding-bottom: 20px
+}
+
+.padl20 {
+	padding-left: 20px
+}
+
+.padr20 {
+	padding-right: 20px
+}
+
+.pad25 {
+	padding: 25px
+}
+
+a.rdLink {
+	background-position: -313px -61px;
+	padding: 1px 0 1px 12px;
+	font-size: 11px;
+	color: #585E74
+}
+
+
+.marl5 {
+	margin-left: 5px
+}
+
+
+.mag-glass {
+	background: url('../images/sokeeper/mag_glass.gif') no-repeat scroll 0%;
+	padding-left: 15px;
+	outline: none;
+	color: #585E74
+}
+
+
+div.plusButtonAbove {
+	width: 50px;
+	height: 61px
+}
+
+.plusButtonCount {
+	text-align: center
+}
+
+.plusButtonInline .plusButtonCount {
+	float: left;
+	margin-right: 3px;
+	display: block;
+	width: 50px;
+	height: 19px;
+	text-decoration: none;
+	line-height: 19px;
+	background: transparent url('../images/dp2/sprite.png?42') no-repeat
+		scroll 0 -373px
+}
+
+.plusButtonInline .plusButtonCount:hover {
+	background-position: 0 -393px
+}
+
+.plusButtonAbove .plusButtonCount {
+	display: block;
+	width: 50px;
+	height: 41px;
+	text-decoration: none;
+	background: url('../images/sokeeper/sprite.png?42') no-repeat 0 -437px;
+	margin-bottom: 1px
+}
+
+.plusButtonAbove .plusButtonCount:hover {
+	background-position: 0 -479px
+}
+
+.plusButtonCount span {
+	line-height: 19px;
+	color: #4e5e6c;
+	text-decoration: none
+}
+
+.plusButtonInline .plusButtonCount span {
+	width: 48px;
+	font: bold 16px Arial;
+	line-height: 19px;
+	margin-right: 2px
+}
+
+.plusButtonAbove .plusButtonCount span {
+	width: 50px;
+	font-size: 22px;
+	line-height: 36px
+}
+
+.plusButton {
+	height: 19px;
+	background: url('../images/sokeeper/sprite.png') no-repeat 0 -311px;
+	text-decoration: none;
+	display: block;
+	width: 50px;
+	float: left
+}
+
+a:hover.plusButton {
+	background-position: 0 -332px
+}
+
+.plusButton.plussed,.plusButton.plussed:hover {
+	background-position: 0 -353px
+}
+
+
+.page_number {
+	padding: 15px 0 15px 0
+}
+
+.box_selected {
+	padding: 2px 4px;
+	border: 1px solid #9f9f9f;
+	font-weight: bold;
+	background: #11578b;
+	color: #fff
+}
+
+
+.box_a {
+	padding: 2px 4px;
+	background: white;
+	text-decoration: none;
+	border: 1px solid #ccc
+}
+
+ 

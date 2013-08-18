@@ -9,6 +9,8 @@
  */
 package com.sokeeper.web.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.sokeeper.persist.service.ChangesService;
+import com.sokeeper.web.dto.QueryDto;
+import com.sokeeper.web.dto.MovieDto;
+
 
 /**
  * @author James Fu (fuyinhai@gmail.com)
@@ -36,8 +41,24 @@ public class HomeController {
      * @return
      */
     @RequestMapping
-    public ModelAndView index(Map<String, Object> out) {
+    public ModelAndView index( QueryDto query , Map<String, Object> out) {
         Assert.notNull(changesService, "changesService can not be null.");
+        out.put("query", query);
+        
+        List<MovieDto> movies = new ArrayList<MovieDto>();
+        for (int i=0; i<10; i++) {
+        	MovieDto movie = new MovieDto();
+        	movie.setName("电影" + i );
+        	movie.setDescription("描述");
+        	movie.setImageUrl("http://img3.douban.com/spic/s11364841.jpg");
+        	movie.setPrice(((Double)(Math.random() * 100)).intValue()) ;
+        	movie.setOprice(movie.getPrice() + 10);
+        	movie.setSharedBy("付银海");
+        	movies.add(movie);
+        }
+        
+        out.put("movies",movies);
+        
         return new ModelAndView("home/index");
     } 
 }
