@@ -48,12 +48,12 @@ public class HomeController {
         List<MovieDto> movies = new ArrayList<MovieDto>();
         for (int i=0; i<10; i++) {
         	MovieDto movie = new MovieDto();
-        	movie.setName("µçÓ°" + i );
-        	movie.setDescription("ÃèÊö");
+        	movie.setName("ç”µå½±" + i );
+        	movie.setDescription("è¿˜ä¸é”™ï¼Œæƒ…èŠ‚ç»†è…»ï¼Œæ•…äº‹å®Œç¾Ž");
         	movie.setImageUrl("http://img3.douban.com/spic/s11364841.jpg");
         	movie.setPrice(((Double)(Math.random() * 100)).intValue()) ;
         	movie.setOprice(movie.getPrice() + 10);
-        	movie.setSharedBy("¸¶Òøº£");
+        	movie.setSharedBy("ä»˜é“¶æµ·");
         	movies.add(movie);
         }
         
