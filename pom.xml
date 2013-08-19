@@ -12,7 +12,8 @@
 		<java.target.version>1.5</java.target.version>
 		<encoding>UTF-8</encoding> 
 		<project.version>1.0.0-SNAPSHOT</project.version>
-		<project.prefix>sokeeper</project.prefix>		
+		<project.prefix>sokeeper</project.prefix>	
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
 	</properties> 
 	
 	<issueManagement>
@@ -214,6 +215,28 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>	
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-cache</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github</groupId>
+			<artifactId>ans</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
       </dependencies>
     </dependencyManagement>
 

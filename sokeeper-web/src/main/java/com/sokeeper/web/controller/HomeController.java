@@ -18,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.hbd.cmdb.search.Searcher;
 import com.sokeeper.persist.service.ChangesService;
 import com.sokeeper.web.dto.QueryDto;
 import com.sokeeper.web.dto.MovieDto;
@@ -28,7 +30,7 @@ import com.sokeeper.web.dto.MovieDto;
  */
 @Controller
 public class HomeController {
-
+	
     @Autowired
     private ChangesService changesService;
     
@@ -45,10 +47,11 @@ public class HomeController {
         Assert.notNull(changesService, "changesService can not be null.");
         out.put("query", query);
         
+        List<String> topics = Searcher.getInstance().search(query.getKeywords() == null ? "" : query.getKeywords() );
         List<MovieDto> movies = new ArrayList<MovieDto>();
-        for (int i=0; i<10; i++) {
+        for (int i=0; i<topics.size(); i++) {
         	MovieDto movie = new MovieDto();
-        	movie.setName("电影" + i );
+        	movie.setName( topics.get(i));
         	movie.setDescription("还不错，情节细腻，故事完美");
         	movie.setImageUrl("http://img3.douban.com/spic/s11364841.jpg");
         	movie.setPrice(((Double)(Math.random() * 100)).intValue()) ;
