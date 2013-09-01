@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="subject">
+	<typeAlias alias="SubjectEntity" type="com.sokeeper.domain.subject.SubjectEntity"  />
+	<typeAlias alias="KeywordEntity" type="com.sokeeper.domain.subject.KeywordEntity"  />
+	<typeAlias alias="SubjectKeyword" type="com.sokeeper.domain.subject.SubjectKeyword"  />
+		
+	<resultMap id="SubjectEntityResult" class="SubjectEntity" >
+		<result property="id"                      column="id"              />
+		<result property="gmtCreated"              column="gmt_create"      />
+		<result property="gmtModified"             column="gmt_modified"    />
+		<result property="name"                    column="name"            />
+		<result property="hash"                    column="hash"            />	
+		<result property="externalId"              column="external_id"     />	
+	</resultMap>
+	<resultMap id="KeywordEntityResult" class="KeywordEntity" >
+		<result property="id"                      column="id"              />
+		<result property="gmtCreated"              column="gmt_create"      />
+		<result property="gmtModified"             column="gmt_modified"    />
+		<result property="name"                    column="name"            />
+		<result property="hash"                    column="hash"            />						
+	</resultMap>
+	<resultMap id="SubjectKeywordResult" class="SubjectKeyword" >
+		<result property="id"                      column="id"              />
+		<result property="gmtCreated"              column="gmt_create"      />
+		<result property="gmtModified"             column="gmt_modified"    />
+		<result property="subjectId"               column="subject_id"      />
+		<result property="keywordId"               column="keyword_id"      />
+		<result property="keywordOccur"            column="keyword_occur"   />
+	</resultMap>
+	
+	<select id="listSubjectExternalId" resultClass="java.util.HashMap" >
+        select id , external_id from subject
+	</select>
+	
+	<select id="listKeywordsByHash" resultClass="java.util.HashMap" parameterClass="[Ljava.lang.Integer;">
+	    select id,name from keyword where hash in (
+	    <iterate conjunction="," open="" close="" property="">
+	        #[]#
+		</iterate>
+	    )
+	</select>
+	
+	<select id="listSubjectsByKeywordIds" resultClass="java.util.HashMap" parameterClass="[Ljava.lang.Integer;">
+	    select sk.subject_id, sk.keyword_id, sk.keyword_occur from subject_keyword sk where sk.keyword_id in (
+	    <iterate conjunction="," open="" close="" property="">
+	        #[]#
+		</iterate>
+	    )
+	</select>	
+	
+	<select id="listSubjectsByIds" resultClass="SubjectEntity" parameterClass="[Ljava.lang.Integer;">
+	    select id,name from subject where id in (
+	    <iterate conjunction="," open="" close="" property="">
+	        #[]#
+		</iterate>
+	    )
+	</select>	
+	
+	<insert id="addOrUpdateSubject" parameterClass="SubjectEntity">
+		insert into subject (gmt_create, gmt_modified,name,hash,external_id)
+		values (now(),now(),#name#,#hash#,#externalId#)
+		on duplicate key update id=last_insert_id(id),gmt_modified=now(),name=#name#,hash=#hash#,external_id=#externalId#
+	</insert>
+	
+	<insert id="addOrUpdateKeyword" parameterClass="KeywordEntity">
+		insert into keyword (gmt_create, gmt_modified,name,hash)
+		values (now(),now(),#name#,#hash#)
+		on duplicate key update id=last_insert_id(id),gmt_modified=now(),name=#name#,hash=#hash#
+		<selectKey resultClass="java.lang.Long" type="post">
+		    select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<insert id="addOrUpdateSubjectKeyword" parameterClass="SubjectKeyword">
+		insert into subject_keyword (gmt_create, gmt_modified,subject_id,keyword_id,keyword_occur)
+		values (now(),now(),#subjectId#,#keywordId#,#keywordOccur#)
+		on duplicate key update id=last_insert_id(id),gmt_modified=now(),keyword_occur=#keywordOccur#
+	</insert>
+</sqlMap>

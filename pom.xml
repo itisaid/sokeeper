@@ -8,14 +8,22 @@
 	<url>https://github.com/fuyinhai/sokeeper</url>
 	
 	<properties>
-		<java.source.version>1.5</java.source.version>
-		<java.target.version>1.5</java.target.version>
+		<java.source.version>1.6</java.source.version>
+		<java.target.version>1.6</java.target.version>
 		<encoding>UTF-8</encoding> 
 		<project.version>1.0.0-SNAPSHOT</project.version>
 		<project.prefix>sokeeper</project.prefix>	
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties> 
 	
+	<repositories>
+		<repository>
+			<id>mvn-repo</id>
+			<url>https://raw.github.com/ansjsun/mvn-repo/master</url>
+		</repository>
+	</repositories>
+		
 	<issueManagement>
 		<url>https://github.com/fuyinhai/sokeeper/issues</url>
 		<system>SoKeeper Issues</system>
@@ -45,6 +53,7 @@
 	
 	<modules>  
 	    <module>sokeeper-common</module>
+	    <module>sokeeper-words</module>
 		<module>sokeeper-rpc</module>
 		<module>sokeeper-client</module>
 		<module>sokeeper-persist</module>
@@ -77,6 +86,11 @@
 	    <dependency>
 	      <groupId>com.sokeeper</groupId>
 	      <artifactId>sokeeper-server</artifactId>
+	      <version>1.0.0-SNAPSHOT</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>com.sokeeper</groupId>
+	      <artifactId>sokeeper-words</artifactId>
 	      <version>1.0.0-SNAPSHOT</version>
 	    </dependency>
 	    <dependency>
@@ -232,11 +246,10 @@
 			<version>4.1.2</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github</groupId>
-			<artifactId>ans</artifactId>
-			<version>1.0</version>
+			<groupId>org.ansj</groupId>
+			<artifactId>tree_split</artifactId>
+			<version>1.0.1</version>
 		</dependency>
-		
       </dependencies>
     </dependencyManagement>
 

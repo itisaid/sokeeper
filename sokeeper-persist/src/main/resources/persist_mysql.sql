@@ -8,6 +8,9 @@ DROP TABLE IF EXISTS `resource_types`;
 DROP TABLE IF EXISTS `resources`;
 DROP TABLE IF EXISTS `association`;
 DROP TABLE IF EXISTS `attributes`;
+DROP TABLE IF EXISTS `subject`;
+DROP TABLE IF EXISTS `keyword`;
+DROP TABLE IF EXISTS `subject_keyword`;
 
 
 DROP TABLE IF EXISTS `acl_objects_members_roles`;
@@ -168,6 +171,35 @@ CREATE TABLE `attributes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `subject` (
+  `id` int(20) NOT NULL AUTO_INCREMENT              ,
+  `external_id` int(20)                             ,
+  `gmt_create`    datetime NOT NULL                 ,
+  `gmt_modified`  datetime NOT NULL                 , 
+  `name`  varchar(255) NOT NULL                     ,
+  `hash` int(20) NOT NULL                           ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `keyword` (
+  `id` int(20) NOT NULL AUTO_INCREMENT              ,
+  `gmt_create`    datetime NOT NULL                 ,
+  `gmt_modified`  datetime NOT NULL                 , 
+  `hash` int(20) NOT NULL                           ,
+  `name`  varchar(255) NOT NULL                     ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `subject_keyword` (
+  `id` int(20) NOT NULL AUTO_INCREMENT              ,
+  `gmt_create`    datetime NOT NULL                 ,
+  `gmt_modified`  datetime NOT NULL                 , 
+  `subject_id`  int(20) NOT NULL                    ,
+  `keyword_id`  int(20) NOT NULL                    ,
+  `keyword_occur`  int(20) NOT NULL                 ,  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 ALTER TABLE node_online_status  ADD UNIQUE INDEX idx_nos_pid_address(p_node_address,node_address);
 ALTER TABLE resource_subscribe  ADD UNIQUE INDEX idx_rsl_resource_node_addr(resource_type,resource_id,client_address,server_address);
 ALTER TABLE resource_changes    ADD UNIQUE INDEX idx_rc_resource_type_id(resource_type,resource_id);
@@ -177,6 +209,11 @@ ALTER TABLE resource_types      ADD UNIQUE INDEX idx_rt_resource_type_name(type_
 ALTER TABLE resources           ADD UNIQUE INDEX idx_r_resource_type_name(resource_type,resource_name);
 ALTER TABLE association         ADD UNIQUE INDEX idx_ass_left_right_ids(left_id,right_id);
 ALTER TABLE attributes          ADD UNIQUE INDEX idx_att_owner_id_key(owner_id,attr_key);
+ALTER TABLE subject             ADD UNIQUE INDEX subject_name_unique(name);
+ALTER TABLE subject             ADD INDEX subject_hash(hash ASC);
+ALTER TABLE keyword             ADD UNIQUE INDEX keyword_name_unique(name);
+ALTER TABLE keyword             ADD INDEX keyword_hash(hash ASC);
+ALTER TABLE subject_keyword     ADD UNIQUE INDEX subject_keyword_key(subject_id,keyword_id);
 
 insert into t_sequence values('resource_changes',1,1);
 insert into t_sequence values('resources',1,1);

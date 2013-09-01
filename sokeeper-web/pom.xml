@@ -20,6 +20,10 @@
 	      <groupId>com.sokeeper</groupId>
 	      <artifactId>sokeeper-persist</artifactId>
 	    </dependency>
+	    <dependency>
+	      <groupId>com.sokeeper</groupId>
+	      <artifactId>sokeeper-words</artifactId>
+	    </dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>
@@ -96,11 +100,6 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId> 
 		</dependency>
-		<dependency>
-			<groupId>com.github</groupId>
-			<artifactId>ans</artifactId> 
-		</dependency>
-		
 	</dependencies>
 	<build>
 		<plugins>	    

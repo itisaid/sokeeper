@@ -10,4 +10,5 @@
 	<sqlMap resource="persist/ibatis-resource-sqlmap.xml"/>
 	<sqlMap resource="persist/ibatis-subscribe-sqlmap.xml"/>
 	<sqlMap resource="persist/ibatis-common-sqlmap.xml"/>
+	<sqlMap resource="persist/ibatis-subject-sqlmap.xml"/>
 </sqlMapConfig>

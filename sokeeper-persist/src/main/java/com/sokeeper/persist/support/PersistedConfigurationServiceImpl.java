@@ -41,9 +41,9 @@ public class PersistedConfigurationServiceImpl extends SqlMapClientDaoSupport im
         return tstamp;
     }
 
-    @SuppressWarnings("unchecked")
     public PersistedConfiguration getPersistedConfiguration() {
-        Map map = getSqlMapClientTemplate().queryForMap("common.getPersistedConfiguration", null,
+        @SuppressWarnings("rawtypes")
+		Map map = getSqlMapClientTemplate().queryForMap("common.getPersistedConfiguration", null,
                 "configKey", "configValue");
         PersistedConfiguration config = new PersistedConfiguration();
         for (Object key : map.keySet()) {

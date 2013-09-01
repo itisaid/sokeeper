@@ -19,10 +19,10 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.hbd.cmdb.search.Searcher;
-import com.sokeeper.persist.service.ChangesService;
-import com.sokeeper.web.dto.QueryDto;
+import com.sokeeper.domain.subject.SubjectEntity;
+import com.sokeeper.persist.service.SubjectKeywordService;
 import com.sokeeper.web.dto.MovieDto;
+import com.sokeeper.web.dto.QueryDto;
 
 
 /**
@@ -32,34 +32,27 @@ import com.sokeeper.web.dto.MovieDto;
 public class HomeController {
 	
     @Autowired
-    private ChangesService changesService;
+    private SubjectKeywordService subjectKeywordService;
     
-    /**
-     * This method serve as the initial page for the web application e.g.:
-     * http://localhost/context
-     * it also serve for
-     * http://localhost/context/home/index.htm
-     * @param out
-     * @return
-     */
     @RequestMapping
     public ModelAndView index( QueryDto query , Map<String, Object> out) {
-        Assert.notNull(changesService, "changesService can not be null.");
+        Assert.notNull(subjectKeywordService, "subjectKeywordService can not be null.");
         out.put("query", query);
         
-        List<String> topics = Searcher.getInstance().search(query.getKeywords() == null ? "" : query.getKeywords() );
         List<MovieDto> movies = new ArrayList<MovieDto>();
-        for (int i=0; i<topics.size(); i++) {
-        	MovieDto movie = new MovieDto();
-        	movie.setName( topics.get(i));
-        	movie.setDescription("还不错，情节细腻，故事完美");
-        	movie.setImageUrl("http://img3.douban.com/spic/s11364841.jpg");
-        	movie.setPrice(((Double)(Math.random() * 100)).intValue()) ;
-        	movie.setOprice(movie.getPrice() + 10);
-        	movie.setSharedBy("付银海");
-        	movies.add(movie);
+        if (query.getKeywords() != null && !query.getKeywords().isEmpty()) {
+            List<SubjectEntity> subjects = subjectKeywordService.search(query.getKeywords() == null ? "" : query.getKeywords(), 0, 40); 
+            for (int i=0; i<subjects.size(); i++) {
+            	MovieDto movie = new MovieDto();
+            	movie.setName( subjects.get(i).getName());
+            	movie.setDescription("还不错，情节细腻，故事完美");
+            	movie.setImageUrl("http://img3.douban.com/spic/s11364841.jpg");
+            	movie.setPrice(((Double)(Math.random() * 100)).intValue()) ;
+            	movie.setOprice(movie.getPrice() + 10);
+            	movie.setSharedBy("付银海");
+            	movies.add(movie);
+            }
         }
-        
         out.put("movies",movies);
         
         return new ModelAndView("home/index");

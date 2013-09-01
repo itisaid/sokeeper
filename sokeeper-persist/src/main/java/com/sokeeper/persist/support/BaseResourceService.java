@@ -101,14 +101,19 @@ public class BaseResourceService extends SqlMapClientDaoSupport {
 
     protected int batchUpdateEntities(Object[] entities, String updateClause)
             throws PersistLayerException {
+    	return batchUpdateEntities(entities,updateClause,DEFAULT_BATCH_SIZE);
+    }
+    
+    protected int batchUpdateEntities(Object[] entities, String updateClause,int batchSize)
+            throws PersistLayerException {
         int impacted = 0;
         if (entities != null && entities.length > 0) {
-            int batchNum = (entities.length + DEFAULT_BATCH_SIZE - 1) / DEFAULT_BATCH_SIZE;
+            int batchNum = (entities.length + batchSize - 1) / batchSize;
             try {
                 for (int currentBatch = 0; currentBatch < batchNum; currentBatch++) {
                     getSqlMapClient().startBatch();
-                    int beginIndex = currentBatch * DEFAULT_BATCH_SIZE;
-                    int endIndex = (currentBatch + 1) * DEFAULT_BATCH_SIZE;
+                    int beginIndex = currentBatch * batchSize;
+                    int endIndex = (currentBatch + 1) * batchSize;
                     endIndex = endIndex > entities.length ? entities.length : endIndex;
                     for (int i = beginIndex; i < endIndex; i++) {
                         impacted += getSqlMapClientTemplate().update(updateClause, entities[i]);
