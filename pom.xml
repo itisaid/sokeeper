@@ -53,7 +53,7 @@
 	
 	<modules>  
 	    <module>sokeeper-common</module>
-	    <module>sokeeper-words</module>
+	    <!--module>sokeeper-words</module -->
 		<module>sokeeper-rpc</module>
 		<module>sokeeper-client</module>
 		<module>sokeeper-persist</module>
@@ -248,6 +248,11 @@
 		<dependency>
 			<groupId>org.ansj</groupId>
 			<artifactId>tree_split</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ansj</groupId>
+			<artifactId>ansj_seg</artifactId>
 			<version>1.0.1</version>
 		</dependency>
       </dependencies>
