@@ -110,6 +110,9 @@
 		          <webAppConfig>
 		            <contextPath>/</contextPath> 
 		          </webAppConfig> 
+                          <stopPort>9001</stopPort>
+                          <stopKey>1qaz@WSX</stopKey>
+                          <jvmArgs>-XX:PermSize=64M -Xms256m -Xmx1024m</jvmArgs>
 		        </configuration>
 	        </plugin>
 		</plugins>
