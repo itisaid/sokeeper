@@ -53,7 +53,7 @@
 	
 	<modules>  
 	    <module>sokeeper-common</module>
-	    <!--module>sokeeper-words</module -->
+	    <module>sokeeper-words</module>
 		<module>sokeeper-rpc</module>
 		<module>sokeeper-client</module>
 		<module>sokeeper-persist</module>
