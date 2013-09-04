@@ -18,6 +18,10 @@
 	    </dependency>
 	    <dependency>
 	      <groupId>com.sokeeper</groupId>
+	      <artifactId>sokeeper-common</artifactId>
+	    </dependency>
+	    <dependency>
+	      <groupId>com.sokeeper</groupId>
 	      <artifactId>sokeeper-persist</artifactId>
 	    </dependency>
 	    <dependency>
