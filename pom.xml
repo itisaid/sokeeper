@@ -329,7 +329,13 @@
 						</plugin>
 					</reportPlugins>
 				</configuration>
-			</plugin -->		    
+			</plugin -->
+			<plugin>
+	            <artifactId>maven-surefire-plugin</artifactId>
+	            <configuration>
+	                <argLine>-XX:PermSize=64M -XX:MaxPermSize=128m -Xms512m -Xmx1024m -XX:MaxNewSize=128</argLine>
+	            </configuration>
+	        </plugin>		    
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
