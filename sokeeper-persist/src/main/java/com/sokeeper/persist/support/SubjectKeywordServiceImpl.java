@@ -20,12 +20,8 @@
 package com.sokeeper.persist.support;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,7 +42,6 @@ import org.springframework.util.Assert;
 import com.sokeeper.domain.subject.KeywordEntity;
 import com.sokeeper.domain.subject.SubjectEntity;
 import com.sokeeper.domain.subject.SubjectKeyword;
-import com.sokeeper.domain.subject.SubjectEntity.KeywordCount;
 import com.sokeeper.exception.PersistLayerException;
 import com.sokeeper.persist.service.SubjectKeywordService;
 
@@ -191,8 +186,7 @@ public class SubjectKeywordServiceImpl extends BaseResourceService implements
 		// STEP 2: seed keywordSubjectDataFile
 		seedKeywordSubjectFile(keywordSubjectFile);
 
-		// STEP 3: now persist all those data into database
-		long memoUsed = memo - Runtime.getRuntime().freeMemory();
+		long memoUsed = (memo - Runtime.getRuntime().freeMemory())/(1024*1024);
 		logger.info("seed spent memory:" + memoUsed + "M");
 	}
 

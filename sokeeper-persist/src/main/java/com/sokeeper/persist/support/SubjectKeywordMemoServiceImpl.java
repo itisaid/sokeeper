@@ -47,6 +47,7 @@ import com.sokeeper.persist.service.SubjectKeywordService;
 public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl implements SubjectKeywordService {
 	
 	private List<String>  keywordsList = new ArrayList<String>();
+	private Map<Integer,Integer[]> keywordsHashCode2IdxMap = new HashMap<Integer,Integer[]>();
 	private List<SubjectEntity> subjectsList = new ArrayList<SubjectEntity>();
 	private Map<Long,Long> subExtToIdMap = new HashMap<Long,Long>();   
 	private List<List<SubjectKeyword>> keywordSubjectList = new ArrayList<List<SubjectKeyword>>();
@@ -54,9 +55,13 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 	public SubjectKeywordMemoServiceImpl() throws IllegalArgumentException, PersistLayerException, IOException {
 	    seed("subject.dat", "keysubject.dat");
 	    search("情节感人",0,40);
+	    search("暴力",0,40);
+	    search("优美",0,40);
+	    search("可爱",0,40);
 	}
 	
 	public List<SubjectEntity> search(String question, int pageNo , int pageSize)  throws IllegalArgumentException, PersistLayerException {	
+		long time = System.nanoTime();
 		// STEP 1: check input parameters
 		Assert.hasText(question,"question can not be empty");
 		Assert.isTrue(pageNo >= 0 , "pageNo cannot be negative number");
@@ -64,22 +69,13 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 		
 		// STEP 2: declare the variables
 		List<SubjectEntity> subjects = new ArrayList<SubjectEntity>();
-	    Set<Integer> keywordIds= new HashSet<Integer>();
 	    
 		// STEP 3: recognize terms
-		List<Term> terms = ToAnalysis.parse(question);
-		
-		for (Term term: terms) {
-			String keyword = term.getName();
-			Integer idOfKeyword = keywordsList.indexOf(keyword);
-			if (idOfKeyword >= 0) {
-				keywordIds.add(idOfKeyword);
-			}
-		}
-		
+	    Set<Integer> keywordIds= extractKeywordIds(question);
+	    
 		// STEP 4: query all qualified subjectId by keywordId
 		if (!keywordIds.isEmpty()) {
-			final Map<Integer,Double> scoresOfSubject = searchScoredSubjectIdsWithWeight(keywordIds);
+			final Map<Integer,Double> scoresOfSubject = searchScoredSubjectIds(keywordIds);
 			
 		    // STEP 5: sort the subjects by their score 
 		    Integer[] sortedSubjectIds = new Integer[scoresOfSubject.size()];
@@ -110,7 +106,31 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 		    	subjects.add(subjectsList.get(subjectId));
 		    } 
 		}		
+		
+		if (logger.isInfoEnabled()) {
+			time = System.nanoTime() - time;
+			logger.info("search:" + question + " spent:" + (time/1000000) + "ms");
+		}
+		
 	    return subjects ;	
+	}
+
+	private Set<Integer> extractKeywordIds(String question) {
+		Set<Integer> keywordIds= new HashSet<Integer>();
+		List<Term> terms = ToAnalysis.parse(question);
+		
+		for (Term term: terms) {
+			String keyword = term.getName();
+			Integer[] ids  = keywordsHashCode2IdxMap.get(keyword.hashCode());
+			if (ids != null) {
+				for (int idx : ids ) {
+					if (keyword.equals(keywordsList.get(idx))){
+						keywordIds.add(idx);
+					}
+				}
+			}
+		}
+		return keywordIds;
 	}
 
 	/**
@@ -119,25 +139,6 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 	 * @return
 	 */
 	protected Map<Integer,Double> searchScoredSubjectIds(Set<Integer> keywordIds) {
-		final Map<Integer,Double> scoresOfSubject = new HashMap<Integer,Double>();
-		int numOfKeyword = keywordIds.size();
-		for (Integer idOfKeyword : keywordIds) {
-			if ( idOfKeyword >= keywordSubjectList.size()) {
-				continue;
-			}
-			for (SubjectKeyword sk : keywordSubjectList.get(idOfKeyword)){
-				Double score = scoresOfSubject.get(sk.getSubjectId());
-				if (score == null) {
-					score = 0.0D ;
-				}
-				score += (double)sk.getKeywordOccur() / (double)numOfKeyword;
-				scoresOfSubject.put(sk.getSubjectId().intValue(), score);
-			}
-		}
-		return scoresOfSubject;
-	}
-	
-	protected Map<Integer,Double> searchScoredSubjectIdsWithWeight(Set<Integer> keywordIds) {
 		final Map<Integer,Double> scoresOfSubject = new HashMap<Integer,Double>();
 		for (Integer idOfKeyword : keywordIds) {
 			if ( idOfKeyword >= keywordSubjectList.size()) {
@@ -149,7 +150,7 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 					score = 0.0D ;
 				}
 				SubjectEntity entity = subjectsList.get(sk.getSubjectId().intValue());
-				score += Math.pow(sk.getKeywordOccur(),2) / entity.getKeywordCountList().get(0).getCount();
+				score += Math.pow(sk.getKeywordOccur(),2) / entity.getMaxKeywordCount();
 				scoresOfSubject.put(sk.getSubjectId().intValue(), score);
 			}
 		}
@@ -172,6 +173,19 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 	protected Long keywordFound(KeywordEntity keywordEntity) { 
 		Long idOfKeyword = new Long(keywordsList.size());
 		keywordsList.add(keywordEntity.getName());
+		
+		Integer hashCode = keywordEntity.getName().hashCode();
+		Integer[] ids = keywordsHashCode2IdxMap.get(hashCode);
+		if (ids == null){
+			ids = new Integer[1];
+		} else {
+			Integer[] newIds = new Integer[ids.length+1];
+			System.arraycopy(ids, 0, newIds, 0, ids.length);
+			ids = newIds;
+		}
+		ids[ids.length -1] = idOfKeyword.intValue();
+		keywordsHashCode2IdxMap.put(hashCode, ids);
+		
 		return idOfKeyword;
 	}
 	

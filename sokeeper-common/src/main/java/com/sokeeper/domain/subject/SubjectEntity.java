@@ -102,6 +102,21 @@ public class SubjectEntity extends DomainEntity {
 		return keywordCountList;
 	}
 
+	/**
+	 * Magic logic, there is an term name this count method, ask Frank Lee :)
+	 * @return
+	 */
+	public int getMaxKeywordCount() {
+		int total = 0 ;
+		if (!keywordCountList.isEmpty()) {
+			total = keywordCountList.get(0).getCount();
+		}
+		if (total == 0) {
+			total = 1 ;
+		}
+		return total ;
+	}
+	
 	public void makeKeywordCountList(String str) {
 		String[] wordCounts = str.split(";");
 		if (wordCounts != null && wordCounts.length > 0) {

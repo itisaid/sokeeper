@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sokeeper.domain.subject.SubjectEntity;
-import com.sokeeper.domain.subject.SubjectEntity.KeywordCount;
 import com.sokeeper.persist.service.SubjectKeywordService;
 import com.sokeeper.web.dto.MovieDto;
 import com.sokeeper.web.dto.QueryDto;
@@ -42,7 +41,7 @@ public class HomeController {
         
         List<MovieDto> movies = new ArrayList<MovieDto>();
         if (query.getKeywords() != null && !query.getKeywords().isEmpty()) {
-            List<SubjectEntity> subjects = subjectKeywordService.search(query.getKeywords() == null ? "" : query.getKeywords(), 0, 40); 
+            List<SubjectEntity> subjects = subjectKeywordService.search(query.getKeywords(), 0, 40); 
             for (int i=0; i<subjects.size(); i++) {
             	SubjectEntity entity = subjects.get(i);
             	MovieDto movie = new MovieDto();
