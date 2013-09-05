@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sokeeper.domain.subject.SubjectEntity;
+import com.sokeeper.domain.subject.SubjectEntity.KeywordCount;
 import com.sokeeper.persist.service.SubjectKeywordService;
 import com.sokeeper.web.dto.MovieDto;
 import com.sokeeper.web.dto.QueryDto;
@@ -43,13 +44,15 @@ public class HomeController {
         if (query.getKeywords() != null && !query.getKeywords().isEmpty()) {
             List<SubjectEntity> subjects = subjectKeywordService.search(query.getKeywords() == null ? "" : query.getKeywords(), 0, 40); 
             for (int i=0; i<subjects.size(); i++) {
+            	SubjectEntity entity = subjects.get(i);
             	MovieDto movie = new MovieDto();
-            	movie.setName( subjects.get(i).getName());
-            	movie.setDescription("还不错，情节细腻，故事完美");
-            	movie.setImageUrl("http://img3.douban.com/spic/s11364841.jpg");
-            	movie.setPrice(((Double)(Math.random() * 100)).intValue()) ;
-            	movie.setOprice(movie.getPrice() + 10);
-            	movie.setSharedBy("付银海");
+            	movie.setName( entity.getName());
+            	movie.setInfo(entity.getInfo());
+            	movie.setImageUrl("/images/poster/"+entity.getExternalId()+".jpg");
+            	movie.setKeywordCountList(entity.getKeywordCountList());
+            	movie.setScore(entity.getScore());
+            	movie.setSummary(entity.getSummary());
+            	movie.setSubjectId(entity.getExternalId());
             	movies.add(movie);
             }
         }

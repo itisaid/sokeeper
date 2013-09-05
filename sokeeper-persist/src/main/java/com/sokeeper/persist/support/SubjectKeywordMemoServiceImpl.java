@@ -79,7 +79,7 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 		
 		// STEP 4: query all qualified subjectId by keywordId
 		if (!keywordIds.isEmpty()) {
-			final Map<Integer,Double> scoresOfSubject = searchScoredSubjectIds(keywordIds);
+			final Map<Integer,Double> scoresOfSubject = searchScoredSubjectIdsWithWeight(keywordIds);
 			
 		    // STEP 5: sort the subjects by their score 
 		    Integer[] sortedSubjectIds = new Integer[scoresOfSubject.size()];
@@ -131,6 +131,25 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 					score = 0.0D ;
 				}
 				score += (double)sk.getKeywordOccur() / (double)numOfKeyword;
+				scoresOfSubject.put(sk.getSubjectId().intValue(), score);
+			}
+		}
+		return scoresOfSubject;
+	}
+	
+	protected Map<Integer,Double> searchScoredSubjectIdsWithWeight(Set<Integer> keywordIds) {
+		final Map<Integer,Double> scoresOfSubject = new HashMap<Integer,Double>();
+		for (Integer idOfKeyword : keywordIds) {
+			if ( idOfKeyword >= keywordSubjectList.size()) {
+				continue;
+			}
+			for (SubjectKeyword sk : keywordSubjectList.get(idOfKeyword)){
+				Double score = scoresOfSubject.get(sk.getSubjectId());
+				if (score == null) {
+					score = 0.0D ;
+				}
+				SubjectEntity entity = subjectsList.get(sk.getSubjectId().intValue());
+				score += Math.pow(sk.getKeywordOccur(),2) / entity.getKeywordCountList().get(0).getCount();
 				scoresOfSubject.put(sk.getSubjectId().intValue(), score);
 			}
 		}

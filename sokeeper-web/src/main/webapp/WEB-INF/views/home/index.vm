@@ -1,11 +1,13 @@
 	<div class="header">
 		<div class="box">
-			<a class="logo" href="$request.contextPath" title="sokeeper.com Home">
+			<a class="logo" href="$request.contextPath" title="最爱">
 			  <img src="$request.contextPath/images/sokeeper/logo.png" alt="sokeeper.com logo" />
 			</a>
 			<div id="top-search">
-				<span class="iconMap movieOn selectMovies"><a>Movie</a></span>
-				<span class="iconMap musicOff selectMusics"><a>Music</a></span>
+				<span class="iconMap movieOn selectMovies"><a>电影</a></span>
+				<span class="iconMap musicOff selectMusics"><a>图书</a></span>
+				<span class="iconMap musicOff selectMusics"><a>音乐</a></span>
+				<span class="iconMap musicOff selectMusics"><a>旅游</a></span>
 				<form method="post" name="main_search" id="mainSearchBar" action="$request.contextPath/home/index.htm">
 					<div>
 					    <input type="hidden" name="topic" value="movie">
@@ -23,8 +25,10 @@
 	<div id="topNavContainer">
 		<div class="box">
 			<ul id="topMenu">
-				<li><a href="$request.contextPath/home/index.htm">Movie</a></li>
-				<li><a href="$request.contextPath/home/index.htm">Music</a></li> 
+				<li><a href="$request.contextPath/home/index.htm">电影</a></li>
+				<li><a href="$request.contextPath/home/index.htm">图书</a></li> 
+				<li><a href="$request.contextPath/home/index.htm">音乐</a></li> 
+				<li><a href="$request.contextPath/home/index.htm">旅游</a></li> 
 			</ul>
 			<ul id="userMenu">
 				<li><a href="$request.contextPath/home/login.htm" class="firstMenuLink">Log In</a></li>
@@ -51,13 +55,13 @@
 						<!--ie sucks-->
 					</div>
 					<div class="content">
-						<h1 id="homeH1">Popular Movies</h1>
+						<h1 id="homeH1">热门电影</h1>
 						<div class="popularMovies">
-							<a href="/6pm-coupons" title="6pm Shoes coupons" class="font12" >6pm Shoes</a> 
-							<a href="/aa-coupons" title="American Airlines coupons" class="font10" >American Airlines</a> 
-							<a href="/aeropostale-coupons" title="Aeropostale coupons" class="font20" >Aeropostale</a> 
-							<a href="/amazon-coupons" title="Amazon coupons" class="font20" >Amazon</a> 
-							<a href="/apple-coupons" title="Apple coupons" class="font11" >Apple</a> 
+							<a href="/6pm-coupons" title="6pm Shoes coupons" class="font12" >黑客帝国</a> 
+							<a href="/aa-coupons" title="American Airlines coupons" class="font10" >阿甘正转</a> 
+							<a href="/aeropostale-coupons" title="Aeropostale coupons" class="font20" >美丽人生</a> </br>
+							<a href="/amazon-coupons" title="Amazon coupons" class="font20" >盗梦空间</a> 
+							<a href="/apple-coupons" title="Apple coupons" class="font11" >芙蓉镇</a> 
 						</div>
 					</div>
 					<div class="bot">
@@ -70,7 +74,7 @@
 						<!--ie sucks-->
 					</div>
 					<div class="content">
-						<h3>Today's Top Movies</h3>
+						<h3>今日热搜</h3>
 						<table border="0" cellspacing="0" cellpadding="0" width="100%">
 							<tr>
 								<td class="front-top-5-plus">
@@ -78,7 +82,7 @@
 										55<br/><span class="plus-lg-text">saved</span></a></td>
 								<td class="front-top-5-desc">
 								  <a href="" >
-								  See's Candies Mother's Day Sale + $5 Off Coupon Sale</a></td>
+								  女人</a></td>
 							</tr>
 							<tr>
 								<td class="front-top-5-plus">
@@ -86,8 +90,7 @@
 										54<br/> <span class="plus-lg-text">saved</span>
 								</a></td>
 								<td class="front-top-5-desc">
-								  <a href="" >Top 5 at The Box
-										Office: Movie Times, Releases, & Deals! Movies</a></td>
+								  <a href="" >	末日</a></td>
 							</tr>
 						</table>
 					</div>
@@ -102,7 +105,7 @@
 					</div>
 					<div class="content">
 						<h3>
-							<a href="/answer">Recent Questions</a>
+							<a href="/answer">给我们留言</a>
 						</h3>
 						<table id="listRecentQuestions" width="100%" cellspacing="0">
 							<tr>
@@ -136,26 +139,15 @@
 									</div>
 								</td>
 								<td class="col2">
-								    <a href="#" class="title">$!movie.name</a>
-									<div class="desc"> $!movie.description<strong>$!movie.price</strong>包邮哦，亲</div>
-									<div class="rowViewPrice">
-										<span class="oprice-g">$!movie.oprice</span> 
-										<span class="nprice-g"><b>$!movie.price</b></span>
-										<span style="font-size: 14px;">包邮哦，亲</span>
+								    <a href="http://movie.douban.com/subject/$!movie.subjectId" class="title">$!movie.name </a>
+									<div class="desc"> $!movie.summary ...</div>
+									<div class="desc"> $!movie.info ...</div>
+									<div class="desc"> 关键词：
+									#foreach($keyword in $movie.keywordCountList)
+										$!keyword.key &nbsp
+									#end
 									</div>
-									<div>
-									  <div class="fleft">
-										<div class="fleft padt3 lt_grey">
-										  <a href="#">$!movie.sharedBy</a> shared <span class="font11 lt_grey"> less than a minute ago</span>
-										</div>
-										<div class="clear"></div>
-									  </div>
-									  <div class="rowViewSite">
-									    <a href="#" target="_blank" rel="nofollow" class="iconMap rdLink">${vender}</a> 
-									    <a href="javascript:void(0);" class="marl5 mag-glass">More info</a>
-									  </div>
-									  <div class="clear"></div>
-									</div>
+									<div class="desc"> 评分：$!movie.score /10</div>
 								</td>
 								<td>
 								  <div class="plusButtonAbove">

@@ -1,4 +1,3 @@
-
 /*
  *  Licensed to the Apache Software Foundation (ASF) under one
  *  or more contributor license agreements.  See the NOTICE file
@@ -21,56 +20,83 @@
 package com.sokeeper.web.dto;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.sokeeper.domain.subject.SubjectEntity.KeywordCount;
 
 /**
  * @author James Fu (fuyinhai@gmail.com)
  */
 public class MovieDto implements Serializable {
-   
-	private static final long serialVersionUID = 2462062713366903759L; 
-	
+
+	private static final long serialVersionUID = 2462062713366903759L;
+
 	private String imageUrl;
 	private String name;
-	private String description;
-	private String sharedBy;
-	private Integer price;
-	private Integer oprice;
-	
+	private String summary;
+	private String info;
+	private float score;
+	private List<KeywordCount> keywordCountList;
+	private long subjectId;
+
 	public String getImageUrl() {
 		return imageUrl;
 	}
+
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDescription() {
-		return description;
+
+	public String getSummary() {
+		return summary;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
-	public Integer getPrice() {
-		return price;
+
+	public String getInfo() {
+		return info;
 	}
-	public void setPrice(Integer price) {
-		this.price = price;
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
-	public Integer getOprice() {
-		return oprice;
+
+	public float getScore() {
+		return score;
 	}
-	public void setOprice(Integer oprice) {
-		this.oprice = oprice;
+
+	public void setScore(float score) {
+		this.score = score;
 	}
-	public String getSharedBy() {
-		return sharedBy;
+
+	public List<KeywordCount> getKeywordCountList() {
+		return keywordCountList;
 	}
-	public void setSharedBy(String sharedBy) {
-		this.sharedBy = sharedBy;
+
+	public void setKeywordCountList(List<KeywordCount> keywordCountList) {
+		this.keywordCountList = keywordCountList;
 	}
-	
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public long getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(long subjectId) {
+		this.subjectId = subjectId;
+	}
+
 }
