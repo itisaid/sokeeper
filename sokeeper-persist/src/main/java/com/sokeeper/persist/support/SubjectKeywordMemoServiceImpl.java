@@ -150,7 +150,7 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 					score = 0.0D ;
 				}
 				SubjectEntity entity = subjectsList.get(sk.getSubjectId().intValue());
-				score += Math.pow(sk.getKeywordOccur(),2) / entity.getMaxKeywordCount();
+				score += entity.calcTfIdfRate(sk.getKeywordOccur());
 				scoresOfSubject.put(sk.getSubjectId().intValue(), score);
 			}
 		}

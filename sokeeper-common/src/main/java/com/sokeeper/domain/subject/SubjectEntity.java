@@ -103,18 +103,21 @@ public class SubjectEntity extends DomainEntity {
 	}
 
 	/**
-	 * Magic logic, there is an term name this count method, ask Frank Lee :)
+	 * TF IDF 词频逆文档频率, ask Frank Lee for details
 	 * @return
 	 */
-	public int getMaxKeywordCount() {
-		int total = 0 ;
+	public Double calcTfIdfRate(long keywordOccur) {
+		double tfIdfRate = 0.0D ;
+		double totalCount= 0.0D ;
 		if (!keywordCountList.isEmpty()) {
-			total = keywordCountList.get(0).getCount();
+			totalCount = keywordCountList.get(0).getCount();
 		}
-		if (total == 0) {
-			total = 1 ;
+		if (totalCount == 0.0D) {
+			totalCount = 1.0D ;
 		}
-		return total ;
+		tfIdfRate = Math.pow(keywordOccur,2) / totalCount;
+		
+		return tfIdfRate ;
 	}
 	
 	public void makeKeywordCountList(String str) {
