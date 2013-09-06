@@ -58,5 +58,5 @@ public interface SubjectKeywordService {
 	 * @throws PersistLayerException
 	 * @throws FileNotFoundException when given subject file or subject keyword file not found
 	 */
-	public void seed(String subjectFile,String keywordSubjectFile) throws IllegalArgumentException, PersistLayerException, FileNotFoundException, IOException;
+	public String seed(String subjectFile,String keywordSubjectFile) throws IllegalArgumentException, PersistLayerException, FileNotFoundException, IOException;
 }

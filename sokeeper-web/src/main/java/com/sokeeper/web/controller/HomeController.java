@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sokeeper.domain.subject.SubjectEntity;
 import com.sokeeper.persist.service.SubjectKeywordService;
+import com.sokeeper.persist.support.BlackWords;
+import com.sokeeper.persist.support.ResourceHelper;
 import com.sokeeper.web.dto.MovieDto;
 import com.sokeeper.web.dto.QueryDto;
 
@@ -47,7 +49,7 @@ public class HomeController {
             	MovieDto movie = new MovieDto();
             	movie.setName( entity.getName());
             	movie.setInfo(entity.getInfo());
-            	movie.setImageUrl("/images/poster/"+entity.getExternalId()+".jpg");
+            	movie.setImageUrl(ResourceHelper.getInstance().getResPrefix() + "/images/poster/"+entity.getExternalId()+".jpg");
             	movie.setKeywordCountList(entity.getKeywordCountList());
             	movie.setScore(entity.getScore());
             	movie.setSummary(entity.getSummary());
@@ -56,7 +58,28 @@ public class HomeController {
             }
         }
         out.put("movies",movies);
-        
+        out.put("commandExecuted", commandExecute(query.getCommand()));
         return new ModelAndView("home/index");
     } 
+    
+    private String commandExecute(String cmd) {
+    	if (cmd != null) {
+    		if (cmd.startsWith("getenv")) {
+    			String envName = cmd.substring("getenv".length()+1);
+    			return System.getProperty(envName,System.getenv(envName));
+    		} else if (cmd.startsWith("setenv")) {
+    			cmd = cmd.substring("setenv".length()+1);
+    			String envName = cmd.substring(0,cmd.indexOf(":"));
+    			String envVal  = cmd.substring(cmd.indexOf(":")+1);
+    			System.setProperty(envName,envVal);
+    			try {
+    				BlackWords.reInitialize();
+					return subjectKeywordService.seed("subject.dat", "keysubject.dat");
+				} catch (Throwable e) {
+					return e.getMessage();
+				}
+    		}
+    	}
+    	return "ddddddd" ;
+    }
 }

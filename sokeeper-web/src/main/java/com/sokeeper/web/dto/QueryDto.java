@@ -29,7 +29,9 @@ public class QueryDto implements Serializable {
  
 	private static final long serialVersionUID = 3450409590264719747L;
 	private String keywords ;
-	private String topic   ;
+	private String topic    ;
+	private String command  ;
+	
 	public String getKeywords() {
 		return keywords;
 	}
@@ -41,6 +43,12 @@ public class QueryDto implements Serializable {
 	}
 	public void setTopic(String topic) {
 		this.topic = topic;
+	}
+	public String getCommand() {
+		return command;
+	}
+	public void setCommand(String command) {
+		this.command = command;
 	}
 	
 }

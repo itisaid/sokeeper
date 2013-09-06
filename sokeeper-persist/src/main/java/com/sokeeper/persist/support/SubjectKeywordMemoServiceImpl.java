@@ -54,10 +54,18 @@ public class SubjectKeywordMemoServiceImpl extends SubjectKeywordServiceImpl imp
 	
 	public SubjectKeywordMemoServiceImpl() throws IllegalArgumentException, PersistLayerException, IOException {
 	    seed("subject.dat", "keysubject.dat");
-	    search("情节感人",0,40);
-	    search("暴力",0,40);
-	    search("优美",0,40);
-	    search("可爱",0,40);
+	}
+	
+	public String seed(String subjectFile, String keywordSubjectFile) throws IllegalArgumentException, PersistLayerException, IOException {
+		keywordsList = new ArrayList<String>();
+		keywordsHashCode2IdxMap = new HashMap<Integer,Integer[]>();
+		subjectsList = new ArrayList<SubjectEntity>();
+		subExtToIdMap = new HashMap<Long,Long>();   
+		keywordSubjectList = new ArrayList<List<SubjectKeyword>>();
+		String msg = super.seed(subjectFile, keywordSubjectFile);
+		msg += " keywordsList:" + keywordsList.size();
+		msg += " subjectsList:" + subjectsList.size();
+		return msg;
 	}
 	
 	public List<SubjectEntity> search(String question, int pageNo , int pageSize)  throws IllegalArgumentException, PersistLayerException {	

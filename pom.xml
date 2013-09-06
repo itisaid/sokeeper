@@ -11,6 +11,8 @@
 		<java.source.version>1.6</java.source.version>
 		<java.target.version>1.6</java.target.version>
 		<encoding>UTF-8</encoding> 
+		<file.encoding>UTF-8</file.encoding>
+		<outputEncoding>UTF-8</outputEncoding>
 		<project.version>1.0.0-SNAPSHOT</project.version>
 		<project.prefix>sokeeper</project.prefix>	
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
@@ -329,13 +331,7 @@
 						</plugin>
 					</reportPlugins>
 				</configuration>
-			</plugin -->
-			<plugin>
-	            <artifactId>maven-surefire-plugin</artifactId>
-	            <configuration>
-	                <argLine>-XX:PermSize=64M -XX:MaxPermSize=128m -Xms512m -Xmx1024m -XX:MaxNewSize=128</argLine>
-	            </configuration>
-	        </plugin>		    
+			</plugin -->     
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -361,6 +357,16 @@
 					<attach>true</attach>
 				</configuration>
 			</plugin>
+			
+
+        <plugin>  
+            <groupId>org.apache.maven.plugins</groupId>  
+            <artifactId>maven-resources-plugin</artifactId>  
+            <configuration>  
+                <encoding>${encoding}</encoding>  
+            </configuration>  
+        </plugin>  
+        			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>

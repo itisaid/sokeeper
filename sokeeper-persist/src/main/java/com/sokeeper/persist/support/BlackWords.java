@@ -12,7 +12,7 @@ public class BlackWords {
 	private BlackWords() {
 		blackWords.add(" ");
 		try {
-			BufferedReader br = ServiceUtil.getReader("blackwords.dat");
+			BufferedReader br = ResourceHelper.getInstance().getReader("blackwords.dat");
 			String line;
 			while ((line = br.readLine()) != null) {
 				blackWords.add(line.split(" ")[0]);
@@ -26,6 +26,10 @@ public class BlackWords {
 		return instance;
 	}
 
+	public static void reInitialize() {
+		instance = new BlackWords();
+	}
+	
 	public boolean isBlackWord(String word) {
 		return blackWords.contains(word);
 	}

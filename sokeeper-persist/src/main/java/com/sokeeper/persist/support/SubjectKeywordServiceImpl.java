@@ -176,18 +176,26 @@ public class SubjectKeywordServiceImpl extends BaseResourceService implements
 	}
 
 	@Transactional
-	public void seed(String subjectFile, String keywordSubjectFile)
+	public String seed(String subjectFile, String keywordSubjectFile)
 			throws IllegalArgumentException, PersistLayerException, IOException {
-		long memo = Runtime.getRuntime().freeMemory();
+		long memo = Runtime.getRuntime().totalMemory();
+		long time = System.currentTimeMillis();
 
 		// STEP 1: seed subjectDataFile
 		seedSubjectDataFile(subjectFile);
 
 		// STEP 2: seed keywordSubjectDataFile
 		seedKeywordSubjectFile(keywordSubjectFile);
-
-		long memoUsed = (memo - Runtime.getRuntime().freeMemory())/(1024*1024);
+		
+		// STEP 3: warm up
+	    search("情节感人",0,40);
+	    search("暴力",0,40);
+	    search("优美",0,40);
+	    search("可爱",0,40);
+	    
+		long memoUsed = (Runtime.getRuntime().totalMemory()-memo)/(1024*1024);
 		logger.info("seed spent memory:" + memoUsed + "M");
+		return "seed spent memory:" + memoUsed + "M in" + (System.currentTimeMillis() - time) + "ms" ; 
 	}
 
 	public void seedKeywordSubjectFile(String keywordSubjectFile)
@@ -199,7 +207,7 @@ public class SubjectKeywordServiceImpl extends BaseResourceService implements
 		BufferedReader reader = null;
 		// STEP 1: parse the keyword subject map
 		try {
-			reader = ServiceUtil.getReader(keywordSubjectFile);
+			reader = ResourceHelper.getInstance().getReader(keywordSubjectFile);
 			String strLine = null;
 			List<SubjectKeyword> batchedSubjectKeyword = new ArrayList<SubjectKeyword>();
 			// STEP 2: read the subject's external id -> internal id map
@@ -293,10 +301,10 @@ public class SubjectKeywordServiceImpl extends BaseResourceService implements
 		BufferedReader reader = null;
 		List<SubjectEntity> batchedEntities = new ArrayList<SubjectEntity>();
 		try {
-			reader = ServiceUtil.getReader(subjectFile);
+			reader = ResourceHelper.getInstance().getReader(subjectFile);
 			String strLine = null;
 			List<String> subjectBlock = new ArrayList<String>();
-			do {
+			do { 
 				strLine = reader.readLine();
 				if (strLine != null) {
 					if (strLine.startsWith("=*******=")) {

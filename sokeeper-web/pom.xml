@@ -116,9 +116,9 @@
 		          <webAppConfig>
 		            <contextPath>/</contextPath> 
 		          </webAppConfig> 
-                          <stopPort>9001</stopPort>
-                          <stopKey>1qaz@WSX</stopKey>
-                          <jvmArgs>-XX:PermSize=64M -Xms256m -Xmx1024m</jvmArgs>
+                  <!--stopPort>9001</stopPort>
+                  <stopKey>1qaz@WSX</stopKey>
+                  <jvmArgs>-XX:PermSize=64M -XX:MaxPermSize=128m -Xms512m -Xmx1024m -XX:MaxNewSize=128 -agentlib:jdwp=transport=dt_socket,server=y,address=4000 -Dfile.encoding=UTF-8</jvmArgs -->
 		        </configuration>
 	        </plugin>
 		</plugins>
