@@ -10,6 +10,7 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
 	default-autowire="byName">
 	<context:component-scan base-package="com.sokeeper.web"  />
+	<context:component-scan base-package="com.sokeeper.service"  />
 	<!-- property loader -->
 	<bean id="webPropertyPlaceholderConfigurer"
 		class="com.sokeeper.util.PropertyPlaceholderConfigurer">

@@ -30,7 +30,6 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				classpath:/spring-persist.xml,
 				classpath:/spring-web.xml
 			</param-value>
 		</init-param>

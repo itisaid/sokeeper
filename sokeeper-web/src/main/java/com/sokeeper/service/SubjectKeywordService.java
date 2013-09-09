@@ -17,14 +17,13 @@
  *  under the License.
  *
  */
-package com.sokeeper.persist.service;
+package com.sokeeper.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import com.sokeeper.domain.subject.SubjectEntity;
-import com.sokeeper.exception.PersistLayerException;
+import com.sokeeper.domain.subject.SubjectEntity; 
 
 /**
  * @author James Fu (fuyinhai@gmail.com)
@@ -40,7 +39,7 @@ public interface SubjectKeywordService {
 	 * @throws IllegalArgumentException
 	 * @throws PersistLayerException
 	 */
-	public List<SubjectEntity> search(String question, int pageNo , int pageSize)  throws IllegalArgumentException, PersistLayerException;
+	public List<SubjectEntity> search(String question, int pageNo , int pageSize)  throws IllegalArgumentException;
 	
 	/**
 	 * seed the Subject,Keyword and SubjectKeyword data from seed data files
@@ -58,5 +57,5 @@ public interface SubjectKeywordService {
 	 * @throws PersistLayerException
 	 * @throws FileNotFoundException when given subject file or subject keyword file not found
 	 */
-	public String seed(String subjectFile, String keywordSubjectFile, String blackWordsFile ) throws IllegalArgumentException, PersistLayerException, IOException;
+	public String seed(String subjectFile, String keywordSubjectFile, String blackWordsFile ) throws IllegalArgumentException, IOException;
 }

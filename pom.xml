@@ -111,7 +111,7 @@
 			<artifactId>
 				log4j
 			</artifactId>
-			<version>1.2.16</version>
+			<version>1.2.17</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -256,6 +256,11 @@
 			<groupId>org.ansj</groupId>
 			<artifactId>ansj_seg</artifactId>
 			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.axet</groupId>
+			<artifactId>wget</artifactId>
+			<version>1.2.9</version>
 		</dependency>
       </dependencies>
     </dependencyManagement>
