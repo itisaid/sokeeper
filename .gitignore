@@ -2,4 +2,6 @@
 **/.project
 **/.settings
 **/*.dat
+**/*.log
+**/node_modules
 */target
