@@ -1,11 +1,8 @@
-define(['rpc','async','log4js' ],function(rpc,async, log4js ){
+define(['async','log4js' ],function(async, log4js ){
 	var logger = log4js.getLogger("spider");
 	var async  = require('async');
 	
 	function spideTags() {
-		rpc.request.bind(this)( 'http://movie.douban.com/tag' , function(err,strBody){
-			logger.info(strBody);
-		});
 	}
 	
 	function sayHello( who ) {

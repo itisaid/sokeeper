@@ -97,7 +97,7 @@
 	
 	// STEP 4: setup socket.io server
 	io.listen(server,{'log level' : 2}).sockets.on('connection', function (socket) {
-		rpc.start(socket);
+		rpc.getInstance(socket).start();
 	});	
 	console.log('Server running at http://127.0.0.1:' + port );  
 })();

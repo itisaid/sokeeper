@@ -1,9 +1,18 @@
 define(['socket.io','log4js'],function(io,log4js){
-	var logger = log4js.getLogger("rpc");
-	var acks   = {}   ;
-	var ackId  = 0    ;
+	var logger       = log4js.getLogger("rpc");
+	var socketsCache = {} ;
+	var socketId     = 0 ;
 	
-	function start(socket) {
+	function RpcWrapper(socket) {
+		this.socket = socket ;
+		this.acks   = {}     ;
+	    this.ackId  = 0      ;
+	}
+	
+	RpcWrapper.prototype.start=function() {
+		var socket  = this.socket ;
+		var selfThis= this        ;
+				
 		socket.on('rpc.call',function(cfg){ 
 			var module  = null         ;
 			var errMsg  = ''           ;
@@ -30,14 +39,14 @@ define(['socket.io','log4js'],function(io,log4js){
 							cfg.args.push((function(cfg,errMsg,response){
 								this.emit('rpc.response' , {ackId: cfg.ackId , response : response , error : errMsg });
 							}).bind(socket,cfg)) ;
-							module[cfg.method].apply(socket,cfg.args) ;
+							module[cfg.method].apply(selfThis,cfg.args) ;
 						} else {
 							try {
-							    response = module[cfg.method].apply(socket,cfg.args);
+							    response = module[cfg.method].apply(selfThis,cfg.args);
 							} catch (e) {
 								errMsg = '' + e ;	
 								logger.error('call ' + cfg.module + '.' + cfg.method + ' failed' , e);
-							}
+							} 
 							socket.emit('rpc.response' , { ackId: cfg.ackId , response : response , error : errMsg});
 						}
 					} else {
@@ -48,21 +57,18 @@ define(['socket.io','log4js'],function(io,log4js){
 				socket.emit('rpc.response' , { ackId: cfg.ackId , error : errMsg});
 			}
 		});		
-		socket.on('rpc.response' , function(res){
-			if (res.ackId != null && acks[res.ackId]) {
-				var func = acks[res.ackId];
-				delete acks[res.ackId]    ;
+		socket.on('rpc.response' , function(res){ 
+			if (res.ackId != null && selfThis.acks[res.ackId]) {
+				var func = selfThis.acks[res.ackId];
+				delete selfThis.acks[res.ackId]    ;
 				func( res.error , res.response );
 			} else if (res.error){
 				logger.error(res.error); 
 			}
-		});
+		});		
 	}
 	
-	/**
-	 * before invoke this method, the socket object should be make as this through call.bind(socket)
-	 */
-	function call(module,method) {
+	RpcWrapper.prototype.call=function call(module,method) {
 		if (!module) {
 			throw 'module cannot be null' ;
 		}
@@ -85,18 +91,13 @@ define(['socket.io','log4js'],function(io,log4js){
 		};
 		
 		if (cb) {
-			cfg.ackId       = ++ackId ;
-			acks[cfg.ackId] = cb      ;
+			cfg.ackId            = ++ this.ackId ;
+			this.acks[cfg.ackId] = cb            ;
 		}
-		if (!this.emit) {
-			throw 'before invoke this method, the socket object should be make as <this> through call.bind(socket)'
-		}
-		this.emit('rpc.call', cfg );
+		this.socket.emit('rpc.call', cfg );
 	}
-
-	// request utility method, would check whether the request library ready
-	// if it's on client side, will delegate the call to rpc server
-	var request = (function(){
+	
+	var requestFunc = RpcWrapper.prototype.request = (function(){
 		var requestLib = null ;
 		if (typeof window === 'undefined') {
 			requestLib = require('request');
@@ -119,13 +120,33 @@ define(['socket.io','log4js'],function(io,log4js){
 		}
 		// on client side, need delegate the call to server
 		return function( urlOrOpts , cb ) {
-			call.bind(this)( 'rpc', 'request' , urlOrOpts , cb );
+			this.call( 'rpc', 'request' , urlOrOpts , cb );
 		}
 	})();
 	
+	function getInstance(socket) {
+		var sid = 0 ;
+	    if (socket != null) {
+		    if (socket.id == null) {
+			    socket.id = socketId ++ ;    
+			}
+		    if (!socketsCache[socket.id]) {
+			    socketsCache[socket.id] = new RpcWrapper(socket);
+			}
+			sid = socket.id ;
+		} else {
+			for (var id in socketsCache){
+				if (typeof socketsCache[id] === 'object') {
+				    sid = id ;
+				    break;	
+				}
+			}
+		}	
+		return socketsCache[sid];
+	}
+	
 	return {
-		start  : start   , 
-		call   : call    ,
-		request: request 
+	    getInstance : getInstance ,
+	    request     : requestFunc	
 	} ;
 });
