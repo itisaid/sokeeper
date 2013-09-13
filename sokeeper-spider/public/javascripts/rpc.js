@@ -2,17 +2,14 @@ define(['socket.io','log4js'],function(io,log4js){
 	var logger       = log4js.getLogger("rpc");
 	var socketsCache = {} ;
 	var socketId     = 0 ;
+	var clientEnabled= typeof window !== 'undefined';
 	
 	function RpcWrapper(socket) {
 		this.socket = socket ;
 		this.acks   = {}     ;
 	    this.ackId  = 0      ;
-	}
-	
-	RpcWrapper.prototype.start=function() {
-		var socket  = this.socket ;
-		var selfThis= this        ;
-				
+		var selfThis= this   ;
+		
 		socket.on('rpc.call',function(cfg){ 
 			var module  = null         ;
 			var errMsg  = ''           ;
@@ -27,27 +24,33 @@ define(['socket.io','log4js'],function(io,log4js){
 			}
 			if (!errMsg) {
 				requirejs([cfg.module],(function(errMsg,cfg,socket,module){
+					var theFunc = null ;
 					var response= null ;					
 					if (!module) {
 						errMsg = 'can not find module:' + cfg.module ;
-					}
-					if (!errMsg && !module[cfg.method]) {
-						errMsg = 'no method: ' + cfg.method + ' found from module:' + cfg.module ;
-					}					
-					if (!errMsg) { 
-						if (module[cfg.method].async) {
-							cfg.args.push((function(cfg,errMsg,response){
-								this.emit('rpc.response' , {ackId: cfg.ackId , response : response , error : errMsg });
-							}).bind(socket,cfg)) ;
-							module[cfg.method].apply(selfThis,cfg.args) ;
+					} 
+					if (!errMsg && !module[cfg.method]) {						
+						if (cfg.method) {
+						    errMsg = 'no method: ' + cfg.method + ' found from module:' + cfg.module ;
 						} else {
-							try {
-							    response = module[cfg.method].apply(selfThis,cfg.args);
-							} catch (e) {
-								errMsg = '' + e ;	
-								logger.error('call ' + cfg.module + '.' + cfg.method + ' failed' , e);
-							} 
-							socket.emit('rpc.response' , { ackId: cfg.ackId , response : response , error : errMsg});
+							if (typeof module === 'function') {
+							    theFunc= module ;
+						    } else {
+						        errMsg = 'no method specified to call module:' + cfg.module ;
+							}
+						} 
+					} 					
+					if (!errMsg) {  
+						theFunc = theFunc || module[cfg.method];
+						
+					    cfg.args.push( (function(cfg,errMsg){
+							this.emit('rpc.response' , {ackId: cfg.ackId , response : Array.prototype.slice.call(arguments,2) , error : errMsg });
+						}).bind(socket,cfg) ) ;
+					    
+						try {
+							theFunc.apply(selfThis,cfg.args) ;
+						} catch (e) {
+						    socket.emit('rpc.response' , {ackId: cfg.ackId , response : [] , error : e.toString() });	
 						}
 					} else {
 						socket.emit('rpc.response' , { ackId: cfg.ackId , response : response , error : errMsg});
@@ -60,8 +63,8 @@ define(['socket.io','log4js'],function(io,log4js){
 		socket.on('rpc.response' , function(res){ 
 			if (res.ackId != null && selfThis.acks[res.ackId]) {
 				var func = selfThis.acks[res.ackId];
-				delete selfThis.acks[res.ackId]    ;
-				func( res.error , res.response );
+				delete selfThis.acks[res.ackId] ; 
+				func.apply( this , [res.error].concat(res.response) );
 			} else if (res.error){
 				logger.error(res.error); 
 			}
@@ -72,24 +75,26 @@ define(['socket.io','log4js'],function(io,log4js){
 		if (!module) {
 			throw 'module cannot be null' ;
 		}
-		if (!method) {
+		if (method === null) {
 			throw 'method cannot be null' ;
 		}		
 		
 		var cb   = null;
 		var args = []  ;
 		for (var i=2; i<arguments.length; i++) {
-			if ( (i == arguments.length - 1) && typeof arguments[i] === 'function') {
-				cb = arguments[i]
+			if (typeof arguments[i] === 'function') {
+				if ( i == arguments.length - 1) {
+					cb = arguments[i] ;
+				} else {
+					args.push(arguments[i].toString() );
+				}
 			} else {
 				args.push(arguments[i]);
 			}
 		}
-		
 		var cfg = {
 			module : module , method: method , args : args
 		};
-		
 		if (cb) {
 			cfg.ackId            = ++ this.ackId ;
 			this.acks[cfg.ackId] = cb            ;
@@ -97,30 +102,38 @@ define(['socket.io','log4js'],function(io,log4js){
 		this.socket.emit('rpc.call', cfg );
 	}
 	
-	var requestFunc = RpcWrapper.prototype.request = (function(){
-		var requestLib = null ;
-		if (typeof window === 'undefined') {
-			requestLib = require('request');
-		}
-		// on server side, request library is ready
-		if (requestLib) {
-			var method = function( urlOrOpts , cb ) {
-				requestLib( urlOrOpts , function(err, response, body) {
-					if (err || response.statusCode !== 200) {
-						logger.error('request:' + (urlOrOpts.uri || urlOrOpts) + ' failed' , ( err || response.statusCode)); 
-						cb('request:' + (urlOrOpts.uri || urlOrOpts) + ' failed with:' + ( err || response.statusCode)) ;
-					} else {
-						cb( null , body);
-					}
-				});
+	/**
+	 * always call on server side
+	 */
+	var scallFunc = RpcWrapper.prototype.scall = (function(){
+		if (clientEnabled) {
+			return function() { 
+				this.call.apply(this,['rpc', '__internal__scall__'].concat(Array.prototype.slice.call(arguments)));
 			}
-			// tell rpc framework, I need async callback
-			method.async = true ;
-			return method       ;
-		}
-		// on client side, need delegate the call to server
-		return function( urlOrOpts , cb ) {
-			this.call( 'rpc', 'request' , urlOrOpts , cb );
+		} else {
+			var method = function() {
+				var module = arguments[0] ;
+				var mName  = arguments[1] ;
+				var args   = Array.prototype.slice.call(arguments,2);
+				
+			    var m = require(module);
+			    if (!m) {
+				    throw 'module ' + module + ' not found' ;   
+			    }
+			    if (mName){
+				    if (!m[mName] || !m[mName].apply ) {
+					    throw 'method ' + mName + ' not found from module ' + module ;     
+					}
+				    m[mName].apply(this,args);
+				} else {
+					if (m.apply) {
+					    m.apply(this,args);
+					} else {
+						throw 'method not specified for call module ' + module ; 
+					}
+			    }
+			}
+			return method;
 		}
 	})();
 	
@@ -142,11 +155,25 @@ define(['socket.io','log4js'],function(io,log4js){
 				}
 			}
 		}	
-		return socketsCache[sid];
+		var instance = socketsCache[sid];
+		if (instance == null) {
+			if (clientEnabled) {
+			    throw 'socket.io not initialized' ;
+			}
+		    instance = {
+			    scall   : scallFunc 
+			    ,
+			    call    : function(){
+					throw 'socket.io not initialized' ;
+				}
+			}	
+		}
+		return instance ; 
 	}
 	
 	return {
-	    getInstance : getInstance ,
-	    request     : requestFunc	
+	    getInstance               : getInstance 
+	    ,
+	    __internal__scall__       : scallFunc	
 	} ;
 });

@@ -34,7 +34,7 @@ requirejs.onError = function(e) {
 	console.error(e);
 }
 
-define(['jquery', 'socket.io', 'rpc' , 'log4js' ], function($, io,rpc,log4js) {
+define(['jquery', 'socket.io', 'rpc' , 'log4js' , 'spider' ], function($, io,rpc,log4js,spider) {
 	// STEP 1: initialize Logger
     var logger = log4js.getDefaultLogger();
 	logger.info('Logger Initialed');	
@@ -42,13 +42,19 @@ define(['jquery', 'socket.io', 'rpc' , 'log4js' ], function($, io,rpc,log4js) {
 	// STEP 2: initialize socket.io
 	var socket = io.connect();
 	
-	// STEP 3: 
+	// STEP 3: initialize the rpc
 	var rpcInstance = rpc.getInstance(socket); 
-	rpcInstance.start();
-	rpcInstance.call('spider','sayHello','James Fu',function(err,msg){
-		logger.info(msg);
-		rpcInstance.request( 'http://movie.douban.com/tag' , function(err,strBody){
-		    logger.info(strBody);	
-		});
+	
+	// STEP 4: example rpc calls
+	rpcInstance.scall('fs','stat','rpc.log', function(err,stats){ 
+		logger.info(stats);
 	});
+	
+	// STEP 5: start scrape
+	//spider.scrape('http://movie.douban.com/tag' , 5, 40 , function(err,msg){
+	//});
+	
+	rpcInstance.call('spider','scrape','http://movie.douban.com/tag' , 5 , 40 ,function(err,msg){
+	});
+		
 });

@@ -66,7 +66,7 @@
 	  , rpc     = requirejs('rpc')
 	  , path    = require('path')
 	  , app     = express() 
-	  , port    = process.env.VCAP_APP_PORT || 3000 ;
+	  , port    = process.env.VCAP_APP_PORT || 80 ;
 	
 	// STEP 2.1: configure express
 	app.set('port' , port );
@@ -97,7 +97,7 @@
 	
 	// STEP 4: setup socket.io server
 	io.listen(server,{'log level' : 2}).sockets.on('connection', function (socket) {
-		rpc.getInstance(socket).start();
+		rpc.getInstance(socket);
 	});	
 	console.log('Server running at http://127.0.0.1:' + port );  
 })();
