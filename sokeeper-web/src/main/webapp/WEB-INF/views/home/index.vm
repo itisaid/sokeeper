@@ -149,14 +149,7 @@
 									</div>
 									<div class="desc"> 评分：$!movie.score /10</div>
 								</td>
-								<td>
-								  <div class="plusButtonAbove">
-								    <a href="#" class="plusButtonCount"> 
-								      <span>4</span>
-								    </a> 
-								    <a href="" class="PlusButtonLink plusButton" data-type="1"></a>
-								  </div>
-								</td>
+								
 							</tr>
 							#end
 							<!-- END -->						
