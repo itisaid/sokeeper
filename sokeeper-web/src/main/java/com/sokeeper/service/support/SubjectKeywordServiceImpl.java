@@ -40,29 +40,50 @@ import org.springframework.util.Assert;
 
 import com.sokeeper.domain.subject.KeywordEntity;
 import com.sokeeper.domain.subject.SubjectEntity;
-import com.sokeeper.domain.subject.SubjectKeyword; 
+import com.sokeeper.domain.subject.SubjectKeyword;
 import com.sokeeper.service.SubjectKeywordService;
 
 /**
  * @author James Fu (fuyinhai@gmail.com)
  */
-@Component("subjectKeywordService")
 public class SubjectKeywordServiceImpl implements SubjectKeywordService {
+
 	final protected Logger logger = LoggerFactory.getLogger(getClass());
 	final protected static int BATCH_SIZE = 10000;
 
-	private List<String>  keywordsList = new ArrayList<String>();
-	private Map<Integer,Integer[]> keywordsHashCode2IdxMap = new HashMap<Integer,Integer[]>();
+	private List<String> keywordsList = new ArrayList<String>();
+	private Map<Integer, Integer[]> keywordsHashCode2IdxMap = new HashMap<Integer, Integer[]>();
 	private List<SubjectEntity> subjectsList = new ArrayList<SubjectEntity>();
-	private Map<Long,Long> subExtToIdMap = new HashMap<Long,Long>();   
+	private Map<Long, Long> subExtToIdMap = new HashMap<Long, Long>();
 	private List<List<SubjectKeyword>> keywordSubjectList = new ArrayList<List<SubjectKeyword>>();
 	private Set<String> blackWords = new HashSet<String>();
-	
-	public SubjectKeywordServiceImpl() throws IllegalArgumentException, IOException {
-	    seed(ResourceHelper.DATA_FILE_SUBJECT, ResourceHelper.DATA_FILE_KEYWORD_SUBJECT,ResourceHelper.DATA_FILE_BLACK_WORDS);
+
+	private SubjectKeywordServiceImpl() throws IllegalArgumentException,
+			IOException {
+		seed(ResourceHelper.DATA_FILE_SUBJECT,
+				ResourceHelper.DATA_FILE_KEYWORD_SUBJECT,
+				ResourceHelper.DATA_FILE_BLACK_WORDS);
 	}
-	
-	public String seed(String subjectFile, String keywordSubjectFile, String blackWordsFile ) throws IllegalArgumentException, IOException {
+
+	private static SubjectKeywordServiceImpl instance;
+
+	public synchronized static SubjectKeywordServiceImpl getInstance() {
+		if(instance == null){
+			try {
+				instance = new SubjectKeywordServiceImpl();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return instance;
+	}
+
+	public String seed(String subjectFile, String keywordSubjectFile,
+			String blackWordsFile) throws IllegalArgumentException, IOException {
 		// STEP 1: clear cache
 		keywordsList.clear();
 		keywordsHashCode2IdxMap.clear();
@@ -72,7 +93,7 @@ public class SubjectKeywordServiceImpl implements SubjectKeywordService {
 
 		// STEP 2: gc
 		System.gc();
-		
+
 		// STEP 3: remember memory and time
 		long memo = Runtime.getRuntime().totalMemory();
 		long time = System.currentTimeMillis();
@@ -82,27 +103,30 @@ public class SubjectKeywordServiceImpl implements SubjectKeywordService {
 
 		// STEP 5: seed keywordSubjectDataFile
 		seedKeywordSubjectFile(keywordSubjectFile);
-		
+
 		// STEP 6: seed blackWords
 		seedBlackWordsFile(blackWordsFile);
-		
+
 		// STEP 7: warm up
-	    search("情节感人",0,40);
-	    search("暴力",0,40);
-	    search("优美",0,40);
-	    search("可爱",0,40);
-	    
-	    // STEP 8: calculate the memory usage
-		long memoUsed = (Runtime.getRuntime().totalMemory()-memo)/(1024*1024);
+		search("情节感人", 0, 40);
+		search("暴力", 0, 40);
+		search("优美", 0, 40);
+		search("可爱", 0, 40);
+
+		// STEP 8: calculate the memory usage
+		long memoUsed = (Runtime.getRuntime().totalMemory() - memo)
+				/ (1024 * 1024);
 		logger.info("seed spent memory:" + memoUsed + "M");
-		
-		String msg ="seed spent memory:" + memoUsed + "M in" + (System.currentTimeMillis() - time) + "ms" ; 
+
+		String msg = "seed spent memory:" + memoUsed + "M in"
+				+ (System.currentTimeMillis() - time) + "ms";
 		msg += " keywordsList:" + keywordsList.size();
 		msg += " subjectsList:" + subjectsList.size();
 		return msg;
 	}
 
-	public void seedSubjectDataFile(String subjectFile) throws FileNotFoundException, IOException {
+	public void seedSubjectDataFile(String subjectFile)
+			throws FileNotFoundException, IOException {
 		Assert.hasText(subjectFile, "subjectFile cannot be empty");
 
 		BufferedReader reader = null;
@@ -111,7 +135,7 @@ public class SubjectKeywordServiceImpl implements SubjectKeywordService {
 			reader = ResourceHelper.getInstance().getReader(subjectFile);
 			String strLine = null;
 			List<String> subjectBlock = new ArrayList<String>();
-			do { 
+			do {
 				strLine = reader.readLine();
 				if (strLine != null) {
 					if (strLine.startsWith("=*******=")) {
@@ -137,9 +161,10 @@ public class SubjectKeywordServiceImpl implements SubjectKeywordService {
 			}
 		}
 	}
-	
-	public void seedKeywordSubjectFile(String keywordSubjectFile) throws FileNotFoundException, IOException {
-		Assert.hasText(keywordSubjectFile,"keywordSubjectFile cannot be empty");
+
+	public void seedKeywordSubjectFile(String keywordSubjectFile)
+			throws FileNotFoundException, IOException {
+		Assert.hasText(keywordSubjectFile, "keywordSubjectFile cannot be empty");
 
 		BufferedReader reader = null;
 		// STEP 1: parse the keyword subject map
@@ -173,27 +198,36 @@ public class SubjectKeywordServiceImpl implements SubjectKeywordService {
 								if (sep > 0) {
 									Long subExtId = null;
 									try {
-										subExtId = Long.valueOf(subExtIdOccurPair.substring(0, sep));
+										subExtId = Long
+												.valueOf(subExtIdOccurPair
+														.substring(0, sep));
 									} catch (NumberFormatException e) {
-										logger.warn("illegal subjectId found from keywordSubjectLine:"+ strLine);
+										logger.warn("illegal subjectId found from keywordSubjectLine:"
+												+ strLine);
 										continue;
 									}
 									Long subId = subExtToIdMap.get(subExtId);
 									if (subId != null) {
 										Long occur = null;
 										try {
-											occur = Long.valueOf(subExtIdOccurPair.substring(sep + 1));
+											occur = Long
+													.valueOf(subExtIdOccurPair
+															.substring(sep + 1));
 										} catch (NumberFormatException e) {
-											logger.warn("illegal occurance found from keywordSubjectLine:"+ strLine);
+											logger.warn("illegal occurance found from keywordSubjectLine:"
+													+ strLine);
 											continue;
 										}
 
 										// STEP 6: create SubjectKeyword
 										SubjectKeyword subjectKeyword = new SubjectKeyword();
-										subjectKeyword.setKeywordId(keywordEntity.getId());
+										subjectKeyword
+												.setKeywordId(keywordEntity
+														.getId());
 										subjectKeyword.setSubjectId(subId);
 										subjectKeyword.setKeywordOccur(occur);
-										batchedSubjectKeyword.add(subjectKeyword);
+										batchedSubjectKeyword
+												.add(subjectKeyword);
 										// STEP 7: batch create
 										if (batchedSubjectKeyword.size() >= BATCH_SIZE) {
 											subjectKeywordFound(batchedSubjectKeyword);
@@ -217,50 +251,51 @@ public class SubjectKeywordServiceImpl implements SubjectKeywordService {
 			}
 		}
 	}
-	
-	public void seedBlackWordsFile( String blackWordsFile) throws IOException {
-		blackWords.add(" "); 
-		BufferedReader br = ResourceHelper.getInstance().getReader(blackWordsFile);
+
+	public void seedBlackWordsFile(String blackWordsFile) throws IOException {
+		blackWords.add(" ");
+		BufferedReader br = ResourceHelper.getInstance().getReader(
+				blackWordsFile);
 		String line;
 		while ((line = br.readLine()) != null) {
 			blackWords.add(line.split(" ")[0]);
-		} 
+		}
 	}
 
 	protected void subjectFound(List<SubjectEntity> batchedEntities) {
 		for (SubjectEntity subject : batchedEntities) {
 			Long subjectId = new Long(subjectsList.size());
-			subExtToIdMap.put(subject.getExternalId(), subjectId );
+			subExtToIdMap.put(subject.getExternalId(), subjectId);
 			subject.setId(subjectId);
 			subjectsList.add(subject);
 		}
 	}
 
-	protected Long keywordFound(KeywordEntity keywordEntity) { 
+	protected Long keywordFound(KeywordEntity keywordEntity) {
 		Long idOfKeyword = new Long(keywordsList.size());
 		keywordsList.add(keywordEntity.getName());
-		
+
 		Integer hashCode = keywordEntity.getName().hashCode();
 		Integer[] ids = keywordsHashCode2IdxMap.get(hashCode);
-		if (ids == null){
+		if (ids == null) {
 			ids = new Integer[1];
 		} else {
-			Integer[] newIds = new Integer[ids.length+1];
+			Integer[] newIds = new Integer[ids.length + 1];
 			System.arraycopy(ids, 0, newIds, 0, ids.length);
 			ids = newIds;
 		}
-		ids[ids.length -1] = idOfKeyword.intValue();
+		ids[ids.length - 1] = idOfKeyword.intValue();
 		keywordsHashCode2IdxMap.put(hashCode, ids);
-		
+
 		return idOfKeyword;
 	}
-	
+
 	protected void subjectKeywordFound(List<SubjectKeyword> entities) {
 		for (SubjectKeyword sk : entities) {
 			Long keywordIdx = sk.getKeywordId();
-			for( int idx = keywordSubjectList.size(); idx <= keywordIdx; idx ++ ){
+			for (int idx = keywordSubjectList.size(); idx <= keywordIdx; idx++) {
 				keywordSubjectList.add(new ArrayList<SubjectKeyword>());
-			}  
+			}
 			keywordSubjectList.get(keywordIdx.intValue()).add(sk);
 		}
 	}
@@ -341,73 +376,78 @@ public class SubjectKeywordServiceImpl implements SubjectKeywordService {
 		}
 		return "";
 	}
-	
-	public List<SubjectEntity> search(String question, int pageNo , int pageSize)  throws IllegalArgumentException {	
+
+	public List<SubjectEntity> search(String question, int pageNo, int pageSize)
+			throws IllegalArgumentException {
 		long time = System.nanoTime();
 		// STEP 1: check input parameters
-		Assert.hasText(question,"question can not be empty");
-		Assert.isTrue(pageNo >= 0 , "pageNo cannot be negative number");
-		Assert.isTrue(pageSize > 0 , "pageSize should be positive number");
-		
+		Assert.hasText(question, "question can not be empty");
+		Assert.isTrue(pageNo >= 0, "pageNo cannot be negative number");
+		Assert.isTrue(pageSize > 0, "pageSize should be positive number");
+
 		// STEP 2: declare the variables
 		List<SubjectEntity> subjects = new ArrayList<SubjectEntity>();
-	    
+
 		// STEP 3: recognize terms
-	    Set<Integer> keywordIds= extractKeywordIds(question);
-	    
+		Set<Integer> keywordIds = extractKeywordIds(question);
+
 		// STEP 4: query all qualified subjectId by keywordId
 		if (!keywordIds.isEmpty()) {
-			final Map<Integer,Double> scoresOfSubject = searchScoredSubjectIds(keywordIds);
-			
-		    // STEP 5: sort the subjects by their score 
-		    Integer[] sortedSubjectIds = new Integer[scoresOfSubject.size()];
-		    scoresOfSubject.keySet().toArray(sortedSubjectIds);
-		    Arrays.sort(sortedSubjectIds, new Comparator<Integer>(){
+			final Map<Integer, Double> scoresOfSubject = searchScoredSubjectIds(keywordIds);
+
+			// STEP 5: sort the subjects by their score
+			Integer[] sortedSubjectIds = new Integer[scoresOfSubject.size()];
+			scoresOfSubject.keySet().toArray(sortedSubjectIds);
+			Arrays.sort(sortedSubjectIds, new Comparator<Integer>() {
 				@Override
 				public int compare(Integer subject1Id, Integer subject2Id) {
-					double d = scoresOfSubject.get(subject2Id) - scoresOfSubject.get(subject1Id);
+					double d = scoresOfSubject.get(subject2Id)
+							- scoresOfSubject.get(subject1Id);
 					if (d > 0) {
-						return 1 ;
+						return 1;
 					}
 					if (d < 0) {
 						return -1;
 					}
 					return 0;
-				} 
-		    });
-		    
-		    // STEP 6: extracted wanted page result
-		    if (sortedSubjectIds.length < pageSize * pageNo) {
-		    	pageNo = 0 ;
-		    }
-		    Integer endIdx = pageSize * ( pageNo + 1 ) ;
-		    sortedSubjectIds = Arrays.copyOfRange(sortedSubjectIds, pageSize * pageNo ,  endIdx > sortedSubjectIds.length ? sortedSubjectIds.length : endIdx  );
-		    
-		    // STEP 7: perform the query and sort the result by score
-		    for (Integer subjectId : sortedSubjectIds) {
-		    	subjects.add(subjectsList.get(subjectId));
-		    } 
-		}		
-		
+				}
+			});
+
+			// STEP 6: extracted wanted page result
+			if (sortedSubjectIds.length < pageSize * pageNo) {
+				pageNo = 0;
+			}
+			Integer endIdx = pageSize * (pageNo + 1);
+			sortedSubjectIds = Arrays.copyOfRange(sortedSubjectIds, pageSize
+					* pageNo,
+					endIdx > sortedSubjectIds.length ? sortedSubjectIds.length
+							: endIdx);
+
+			// STEP 7: perform the query and sort the result by score
+			for (Integer subjectId : sortedSubjectIds) {
+				subjects.add(subjectsList.get(subjectId));
+			}
+		}
+
 		if (logger.isInfoEnabled()) {
 			time = System.nanoTime() - time;
-			logger.info("search:" + question + " spent:" + (time/1000000) + "ms");
+			logger.info("search:" + question + " spent:" + (time / 1000000)
+					+ "ms");
 		}
-		
-	    return subjects ;	
+
+		return subjects;
 	}
 
-	
 	private Set<Integer> extractKeywordIds(String question) {
-		Set<Integer> keywordIds= new HashSet<Integer>();
+		Set<Integer> keywordIds = new HashSet<Integer>();
 		List<Term> terms = ToAnalysis.parse(question);
-		
-		for (Term term: terms) {
+
+		for (Term term : terms) {
 			String keyword = term.getName();
-			Integer[] ids  = keywordsHashCode2IdxMap.get(keyword.hashCode());
+			Integer[] ids = keywordsHashCode2IdxMap.get(keyword.hashCode());
 			if (ids != null) {
-				for (int idx : ids ) {
-					if (keyword.equals(keywordsList.get(idx))){
+				for (int idx : ids) {
+					if (keyword.equals(keywordsList.get(idx))) {
 						keywordIds.add(idx);
 					}
 				}
@@ -418,21 +458,24 @@ public class SubjectKeywordServiceImpl implements SubjectKeywordService {
 
 	/**
 	 * the score method can be optimized in future
+	 * 
 	 * @param keywordIds
 	 * @return
 	 */
-	protected Map<Integer,Double> searchScoredSubjectIds(Set<Integer> keywordIds) {
-		final Map<Integer,Double> scoresOfSubject = new HashMap<Integer,Double>();
+	protected Map<Integer, Double> searchScoredSubjectIds(
+			Set<Integer> keywordIds) {
+		final Map<Integer, Double> scoresOfSubject = new HashMap<Integer, Double>();
 		for (Integer idOfKeyword : keywordIds) {
-			if ( idOfKeyword >= keywordSubjectList.size()) {
+			if (idOfKeyword >= keywordSubjectList.size()) {
 				continue;
 			}
-			for (SubjectKeyword sk : keywordSubjectList.get(idOfKeyword)){
+			for (SubjectKeyword sk : keywordSubjectList.get(idOfKeyword)) {
 				Double score = scoresOfSubject.get(sk.getSubjectId());
 				if (score == null) {
-					score = 0.0D ;
+					score = 0.0D;
 				}
-				SubjectEntity entity = subjectsList.get(sk.getSubjectId().intValue());
+				SubjectEntity entity = subjectsList.get(sk.getSubjectId()
+						.intValue());
 				score += entity.calcTfIdfRate(sk.getKeywordOccur());
 				scoresOfSubject.put(sk.getSubjectId().intValue(), score);
 			}

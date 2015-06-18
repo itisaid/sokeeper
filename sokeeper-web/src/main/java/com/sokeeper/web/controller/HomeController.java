@@ -19,44 +19,48 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sokeeper.domain.subject.SubjectEntity; 
+import com.sokeeper.domain.subject.SubjectEntity;
 import com.sokeeper.service.SubjectKeywordService;
 import com.sokeeper.service.support.ResourceHelper;
+import com.sokeeper.service.support.SubjectKeywordServiceImpl;
 import com.sokeeper.web.dto.MovieDto;
 import com.sokeeper.web.dto.QueryDto;
-
 
 /**
  * @author James Fu (fuyinhai@gmail.com)
  */
 @Controller
 public class HomeController {
-	
-    @Autowired
-    private SubjectKeywordService subjectKeywordService;
-    
-    @RequestMapping
-    public ModelAndView index( QueryDto query , Map<String, Object> out) {
-        Assert.notNull(subjectKeywordService, "subjectKeywordService can not be null.");
-        out.put("query", query);
-        
-        List<MovieDto> movies = new ArrayList<MovieDto>();
-        if (query.getKeywords() != null && !query.getKeywords().isEmpty()) {
-            List<SubjectEntity> subjects = subjectKeywordService.search(query.getKeywords(), 0, 40); 
-            for (int i=0; i<subjects.size(); i++) {
-            	SubjectEntity entity = subjects.get(i);
-            	MovieDto movie = new MovieDto();
-            	movie.setName( entity.getName());
-            	movie.setInfo(entity.getInfo());
-            	movie.setImageUrl(ResourceHelper.getInstance().getEnv(ResourceHelper.IMAGE_HTTP_SERVER) +entity.getExternalId()+".jpg");
-            	movie.setKeywordCountList(entity.getKeywordCountList());
-            	movie.setScore(entity.getScore());
-            	movie.setSummary(entity.getSummary());
-            	movie.setSubjectId(entity.getExternalId());
-            	movies.add(movie);
-            }
-        }
-        out.put("movies",movies);
-        return new ModelAndView("home/index");
-    }
+
+	private SubjectKeywordService subjectKeywordService = SubjectKeywordServiceImpl
+			.getInstance();
+
+	@RequestMapping
+	public ModelAndView index(QueryDto query, Map<String, Object> out) {
+		Assert.notNull(subjectKeywordService,
+				"subjectKeywordService can not be null.");
+		out.put("query", query);
+
+		List<MovieDto> movies = new ArrayList<MovieDto>();
+		if (query.getKeywords() != null && !query.getKeywords().isEmpty()) {
+			List<SubjectEntity> subjects = subjectKeywordService.search(
+					query.getKeywords(), 0, 40);
+			for (int i = 0; i < subjects.size(); i++) {
+				SubjectEntity entity = subjects.get(i);
+				MovieDto movie = new MovieDto();
+				movie.setName(entity.getName());
+				movie.setInfo(entity.getInfo());
+				movie.setImageUrl(ResourceHelper.getInstance().getEnv(
+						ResourceHelper.IMAGE_HTTP_SERVER)
+						+ entity.getExternalId() + ".jpg");
+				movie.setKeywordCountList(entity.getKeywordCountList());
+				movie.setScore(entity.getScore());
+				movie.setSummary(entity.getSummary());
+				movie.setSubjectId(entity.getExternalId());
+				movies.add(movie);
+			}
+		}
+		out.put("movies", movies);
+		return new ModelAndView("home/index");
+	}
 }

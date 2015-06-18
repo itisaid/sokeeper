@@ -16,11 +16,12 @@ import com.alibaba.fastjson.JSON;
 import com.sokeeper.domain.subject.SubjectEntity;
 import com.sokeeper.service.SubjectKeywordService;
 import com.sokeeper.service.support.ResourceHelper;
+import com.sokeeper.service.support.SubjectKeywordServiceImpl;
 import com.sokeeper.web.dto.MovieDto;
 
 public class QueryServlet extends HttpServlet {
-	@Autowired
-	private SubjectKeywordService subjectKeywordService;
+	private SubjectKeywordService subjectKeywordService = SubjectKeywordServiceImpl
+			.getInstance();
 	private static final long serialVersionUID = -9140179114615474818L;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
